@@ -31,7 +31,6 @@ public class PickSeedsUpGoal extends Goal{
                 if(item.getItem().getItem() instanceof BlockNamedItem){
                     BlockNamedItem item1 = (BlockNamedItem) item.getItem().getItem();
                     if(item1.getBlock() instanceof CropsBlock){
-                        System.out.println("x:" + item.position().x() + "\ny:" + item.position().y() + "\nz:" + item.position().z() );
                         this.entity.getNavigation().moveTo( item.position().x() < 0 ? item.position().x() - 1 : item.position().x() + 1 , item.position().y(),
                                 item.position().z() < 0 ? item.position().z() - 1 : item.position().z() + 1, this.speedModifier );
                         if(entity.distanceTo( item ) < 1.25F){
