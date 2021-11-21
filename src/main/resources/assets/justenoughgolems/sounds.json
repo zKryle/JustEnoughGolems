@@ -1,0 +1,40 @@
+{
+	"entity.plant_golem_death": {
+		"category": "entity",
+		"subtitle": "entity.plant_golem_death.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/plant_golem_death",
+				"stream": false
+			}
+		]
+	},
+	"entity.plant_golem_hit": {
+		"category": "entity",
+		"subtitle": "entity.plant_golem_hit.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/plant_golem_hit",
+				"stream": false
+			}
+		]
+	},
+	"entity.plant_golem_step":{
+		"category": "entity",
+		"subtitle": "entity.plant_golem_step.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/plant_golem_step1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/plant_golem_step2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/plant_golem_step3",
+				"stream": false
+			}
+		]
+	}
+}

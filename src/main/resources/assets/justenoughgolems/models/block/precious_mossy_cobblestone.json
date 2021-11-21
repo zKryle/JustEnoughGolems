@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "justenoughgolems:blocks/precious_mossy_cobblestone"
+  }
+}
