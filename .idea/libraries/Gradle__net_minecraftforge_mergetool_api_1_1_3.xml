@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.minecraftforge:mergetool:api:1.1.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mergetool/1.1.3/d7d4b6eac7f49c59255c8ac25190802c29ac9a4a/mergetool-1.1.3-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mergetool/1.1.3/608ca0649946a7d3bcda321d43f29db2b40f0004/mergetool-1.1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

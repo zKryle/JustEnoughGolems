@@ -3,23 +3,21 @@ package com.zkryle.jeg.common.events;
 import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import com.zkryle.jeg.core.Init;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @Mod.EventBusSubscriber(modid = JustEnoughGolems.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class StaticEventSubscriber{
@@ -27,7 +25,7 @@ public class StaticEventSubscriber{
     // Handle Golem
     @SubscribeEvent
     public static void onGolemPlaced ( BlockEvent.EntityPlaceEvent event ) {
-        World level = (World) event.getWorld();
+        Level level = (Level) event.getWorld();
         BlockPos pos = event.getPos();
         Block block = event.getState().getBlock();
 
@@ -51,13 +49,13 @@ public class StaticEventSubscriber{
             Direction facing = event.getPlayer().getDirection().getOpposite();
             event.getWorld().setBlock(event.getPos(), Blocks.CARVED_PUMPKIN.defaultBlockState().setValue( HORIZONTAL_FACING, facing), 3);
             event.setCanceled(true);
-            event.getWorld().playLocalSound(event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), SoundEvents.PUMPKIN_CARVE, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
-            event.getPlayer().getMainHandItem().hurtAndBreak(1, event.getPlayer(), p -> p.broadcastBreakEvent( Hand.MAIN_HAND));
+            event.getWorld().playLocalSound(event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), SoundEvents.PUMPKIN_CARVE, SoundSource.BLOCKS, 1.0F, 1.0F, true);
+            event.getPlayer().getMainHandItem().hurtAndBreak(1, event.getPlayer(), p -> p.broadcastBreakEvent( InteractionHand.MAIN_HAND));
             spawnPlantGolem(event.getWorld(), event.getPos().below(), event.getPos());
         }
     }
 
-    private static void spawnPlantGolem( World level, BlockPos mossycobblestone, BlockPos pumpkin){
+    private static void spawnPlantGolem( Level level, BlockPos mossycobblestone, BlockPos pumpkin){
         if(level.getBlockState( mossycobblestone ).getBlock() == Init.PRECIOUS_MOSSY_COBBLESTONE.get()
                 && level.getBlockState( pumpkin ).getBlock() == Blocks.CARVED_PUMPKIN){
             level.destroyBlock( pumpkin, false );

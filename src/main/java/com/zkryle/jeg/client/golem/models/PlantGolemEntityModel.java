@@ -1,142 +1,106 @@
-package com.zkryle.jeg.client.golem.models;// Made with Blockbench 4.0.4
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
+package com.zkryle.jeg.client.golem.models;// Made with Blockbench 4.0.5
+// Exported for Minecraft version 1.17 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.IHasArm;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.HandSide;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityModel <T> implements IHasArm{
-	private final ModelRenderer wholebody;
-	private final ModelRenderer neck;
-	private final ModelRenderer arm1;
-	private final ModelRenderer arm2;
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
-	private final ModelRenderer stomach;
-	private final ModelRenderer wholehead;
-	private final ModelRenderer head;
-	private final ModelRenderer twig;
-	private final ModelRenderer leaves;
-	private final ModelRenderer leaf1;
-	private final ModelRenderer leaf2;
+public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityModel <T> implements ArmedModel{
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "plantgolementitymodel"), "main");
+	private final ModelPart neck;
+	private final ModelPart wholehead;
+	private final ModelPart stomach;
+	private final ModelPart leg2;
+	private final ModelPart leg1;
+	private final ModelPart arm2;
+	private final ModelPart arm1;
 
-	public PlantGolemEntityModel() {
-		texWidth = 32;
-		texHeight = 32;
+	public PlantGolemEntityModel(ModelPart root) {
+		this.neck = root.getChild("neck");
+		this.wholehead = root.getChild("wholehead");
+		this.stomach = root.getChild("stomach");
+		this.leg2 = root.getChild("leg2");
+		this.leg1 = root.getChild("leg1");
+		this.arm2 = root.getChild("arm2");
+		this.arm1 = root.getChild("arm1");
+	}
 
-		wholebody = new ModelRenderer(this);
-		wholebody.setPos(-0.5F, 18.0F, 0.0F);
-		setRotationAngle(wholebody, -3.1416F, 0.0F, 3.1416F);
-		
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		neck = new ModelRenderer(this);
-		neck.setPos(-0.1F, -2.0F, 0.0F);
-		wholebody.addChild(neck);
-		neck.texOffs(15, 12).addBox(-1.6F, -1.0F, -1.6F, 3.0F, 1.0F, 3.0F, 0.0F, false);
+		PartDefinition neck = partdefinition.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(15, 12).addBox(-1.6F, -1.0F, -1.6F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.6F, 16.0F, 0.0F));
 
-		arm1 = new ModelRenderer(this);
-		arm1.setPos(-3.5F, -1.0F, 0.0F);
-		wholebody.addChild(arm1);
-		arm1.texOffs(0, 21).addBox(-2.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
+		PartDefinition wholehead = partdefinition.addOrReplaceChild("wholehead", CubeListBuilder.create(), PartPose.offset(-0.6F, 15.6F, 0.0F));
 
-		arm2 = new ModelRenderer(this);
-		arm2.setPos(3.5F, -1.0F, 0.0F);
-		wholebody.addChild(arm2);
-		arm2.texOffs(18, 19).addBox(0.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
+		PartDefinition head = wholehead.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 12).addBox(-2.3F, -4.0F, -2.6F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
+		.texOffs(10, 28).addBox(-0.3F, -2.0F, 2.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.1F, 0.0F, 0.0F));
 
-		leg1 = new ModelRenderer(this);
-		leg1.setPos(-1.5F, 4.0F, 0.0F);
-		wholebody.addChild(leg1);
-		leg1.texOffs(8, 21).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+		PartDefinition twig = wholehead.addOrReplaceChild("twig", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.1F, -4.0F, -0.1F));
 
-		leg2 = new ModelRenderer(this);
-		leg2.setPos(1.5F, 4.0F, 0.0F);
-		wholebody.addChild(leg2);
-		leg2.texOffs(20, 0).addBox(-1.0F, 0.0F, -0.9F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+		PartDefinition leaves = twig.addOrReplaceChild("leaves", CubeListBuilder.create(), PartPose.offset(0.0F, -2.0F, 0.0F));
 
-		stomach = new ModelRenderer(this);
-		stomach.setPos(0.1F, 1.0F, 0.0F);
-		wholebody.addChild(stomach);
-		stomach.texOffs(0, 0).addBox(-3.6F, -3.0F, -3.0F, 7.0F, 6.0F, 6.0F, 0.0F, false);
+		PartDefinition leaf1 = leaves.addOrReplaceChild("leaf1", CubeListBuilder.create().texOffs(0, 12).addBox(-1.0F, -1.0F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.5F, 0.0F, 0.0F));
 
-		wholehead = new ModelRenderer(this);
-		wholehead.setPos(-0.1F, -2.4F, 0.0F);
-		wholebody.addChild(wholehead);
-		
+		PartDefinition leaf2 = leaves.addOrReplaceChild("leaf2", CubeListBuilder.create().texOffs(0, 3).addBox(0.0F, -1.0F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, 0.0F, 0.0F));
 
-		head = new ModelRenderer(this);
-		head.setPos(-0.1F, 0.0F, 0.0F);
-		wholehead.addChild(head);
-		head.texOffs(0, 12).addBox(-2.3F, -4.0F, -2.6F, 5.0F, 4.0F, 5.0F, 0.0F, false);
-		head.texOffs(10, 28).addBox(-0.3F, -2.0F, 2.0F, 1.0F, 2.0F, 2.0F, 0.0F, false);
+		PartDefinition stomach = partdefinition.addOrReplaceChild("stomach", CubeListBuilder.create().texOffs(0, 0).addBox(-3.6F, -3.0F, -3.0F, 7.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.4F, 19.0F, 0.0F));
 
-		twig = new ModelRenderer(this);
-		twig.setPos(0.1F, -4.0F, -0.1F);
-		wholehead.addChild(twig);
-		twig.texOffs(0, 0).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(20, 0).addBox(-1.0F, 0.0F, -0.9F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 22.0F, 0.0F));
 
-		leaves = new ModelRenderer(this);
-		leaves.setPos(0.0F, -2.0F, 0.0F);
-		twig.addChild(leaves);
-		
+		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(8, 21).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 22.0F, 0.0F));
 
-		leaf1 = new ModelRenderer(this);
-		leaf1.setPos(-0.5F, 0.0F, 0.0F);
-		leaves.addChild(leaf1);
-		leaf1.texOffs(0, 12).addBox(-1.0F, -1.0F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+		PartDefinition arm2 = partdefinition.addOrReplaceChild("arm2", CubeListBuilder.create().texOffs(18, 19).addBox(0.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, 17.0F, 0.0F));
 
-		leaf2 = new ModelRenderer(this);
-		leaf2.setPos(0.5F, 0.0F, 0.0F);
-		leaves.addChild(leaf2);
-		leaf2.texOffs(0, 3).addBox(0.0F, -1.0F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(0, 21).addBox(-2.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 17.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 32, 32);
+	}
+
+	protected Iterable<ModelPart> bodyParts() {
+		return ImmutableList.of(this.stomach, this.leg1, this.leg2, this.arm1, this.arm2, this.neck, this.wholehead);
 	}
 
 	@Override
-	public void setupAnim( PlantGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float ageInTicks, float pNetHeadYaw, float pHeadPitch){
-		//previously the render function, render code was moved to a method below
+	public void setupAnim(T entity, float pLimbSwing, float pLimbSwingAmount, float ageInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.wholehead.xRot = pHeadPitch * ((float)Math.PI / -180F);
 		this.wholehead.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-		this.leg1.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
-		this.leg2.xRot = MathHelper.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
-		this.arm2.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
-		this.arm1.xRot = MathHelper.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
-		if(!entity.getMainHandItem().isEmpty()){
-			this.arm2.xRot = arm2.xRot + 0.5f;
-		}
-		this.twig.xRot = (MathHelper.sin(  entity.animationSpeed * 2.0F) + 0.1F) < 0.0F ? -1 * (MathHelper.sin(  entity.animationSpeed * 2.0F) + 0.1F) :
-				(MathHelper.sin(  entity.animationSpeed * 2.0F) + 0.1F);
+		this.leg1.xRot = Mth.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
+		this.leg2.xRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
+		this.arm2.xRot = Mth.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount + (!entity.getMainHandItem().isEmpty() ? 0.5F : 0F);
+		this.arm1.xRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
+		this.wholehead.getChild( "twig" ).xRot = (Mth.sin(  entity.animationSpeed * 2.0F) + 0.1F) < 0.0F ? -1 * (Mth.sin(  entity.animationSpeed * 2.0F) + 0.1F) :
+				(Mth.sin(  entity.animationSpeed * 2.0F) + 0.1F);
 	}
 
 	@Override
-	public void renderToBuffer( MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		matrixStack.scale( 1.5f, 1.5f, 1.5f );
-		matrixStack.translate( 0.025f, -0.5f, 0.0f );
-		wholebody.render(matrixStack, buffer, packedLight, packedOverlay);
-
-	}
-
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
+	public void renderToBuffer( PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		poseStack.scale( 1.5f, 1.5f, 1.5f );
+		poseStack.translate( -0.025f, -0.5f, 0.0f );
+		poseStack.mulPose( Vector3f.YP.rotationDegrees(180) );
+		bodyParts().forEach( part -> part.render(poseStack, buffer, packedLight, packedOverlay));
 	}
 
 	@Override
-	public void translateToHand( HandSide pSide , MatrixStack pMatrixStack ){
-		pMatrixStack.scale( 0.5f, 0.5f, 0.5f );
-		pMatrixStack.translate( -0.75d, 2.3d, 0.0d );
-		pMatrixStack.mulPose( Vector3f.XN.rotationDegrees(60) );
-		ModelRenderer dummyarm = new ModelRenderer( this );
-		dummyarm.setPos(3.5F, -1.0F, 0.0F);
-		dummyarm.xRot = arm1.xRot + 0.5f;
-		dummyarm.translateAndRotate(pMatrixStack);
+	public void translateToHand( HumanoidArm humanoidArm , PoseStack poseStack ){
+		arm2.translateAndRotate(poseStack);
+		poseStack.scale( 0.5f, 0.5f, 0.5f );
+		poseStack.translate( 0.2d, 1.3d, -0.1d );
+		poseStack.mulPose( Vector3f.XN.rotationDegrees(180) );
+
 	}
 }
