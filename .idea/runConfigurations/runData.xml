@@ -3,9 +3,9 @@
   <configuration default="false" factoryName="Application" name="runData" singleton="false" type="Application">
     <option name="MAIN_CLASS_NAME" value="net.minecraftforge.userdev.LaunchTesting"/>
     <option name="VM_PARAMETERS" value="-Dforge.logging.console.level=debug -Dforge.logging.markers=REGISTRIES -XX:+IgnoreUnrecognizedVMOptions --add-exports=java.base/sun.security.util=ALL-UNNAMED --add-exports=jdk.naming.dns/com.sun.jndi.dns=java.naming --add-opens=java.base/java.util.jar=ALL-UNNAMED"/>
-    <option name="PROGRAM_PARAMETERS" value="--mod examplemod --all --output C:\Users\zKryle\Desktop\Programmazione\Minecraft\PiantGolem\src\generated\resources --existing C:\Users\zKryle\Desktop\Programmazione\Minecraft\PiantGolem\src\main\resources"/>
+    <option name="PROGRAM_PARAMETERS" value="--mod examplemod --all --output C:\Users\zKryle\Desktop\Programmazione\Minecraft\JustEnoughGolems\src\generated\resources --existing C:\Users\zKryle\Desktop\Programmazione\Minecraft\JustEnoughGolems\src\main\resources"/>
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$\run"/>
-    <module name="PiantGolem.main"/>
+    <module name="JustEnoughGolems.main"/>
     <envs>
       <env name="MOD_CLASSES" value="examplemod%%$PROJECT_DIR$\build\resources\main;examplemod%%$PROJECT_DIR$\build\classes\java\main"/>
       <env name="MCP_MAPPINGS" value="parchment_2021.10.17-1.16.5"/>

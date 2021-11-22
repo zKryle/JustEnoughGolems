@@ -10,6 +10,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 
 public class PlantSeedsGoal extends Goal{
 
@@ -55,23 +57,30 @@ public class PlantSeedsGoal extends Goal{
         for(BlockPos block : BlockPos.betweenClosed( (int) entity.getX() - range , (int) entity.getY() - 2 , (int) entity.getZ() - range ,
                 (int) entity.getX() + range , (int) entity.getY() + 2 , (int) entity.getZ() + range )){
             if(level.getBlockState( block ).getBlock() == Blocks.FARMLAND && level.getBlockState( block.above() ).getBlock() == Blocks.AIR){
-                this.entity.getNavigation().moveTo( block.getX() , block.getY() , block.getZ() , this.speedModifier );
+                this.entity.getNavigation().moveTo(
+                        new Random().nextInt() * 10 > 5 ? block.getX() + 0.5F : block.getX() - 0.5F , block.getY() ,
+                        new Random().nextInt() * 10 > 5 ? block.getZ() + 0.5F : block.getZ() - 0.5F ,
+                        this.speedModifier );
                 break;
             }
         }
 
         if(!entity.getSeedSlot().isEmpty()){
             if(level.getBlockState( new BlockPos( entity.position() ) ).getBlock() == Blocks.FARMLAND &&
-                    level.getBlockState( new BlockPos( entity.position() ).above() ).getBlock() == Blocks.AIR){
+                    level.getBlockState( new BlockPos( entity.position() ).above() ).getBlock() == Blocks.AIR &&
+                    (this.entity.level.getRawBrightness( new BlockPos( this.entity.position() ).above() , 0 ) >= 8 ||
+                            this.entity.level.canSeeSky( new BlockPos( this.entity.position() ).above() ))){
                 level.setBlock( new BlockPos( entity.position() ).above() , crop , 3 );
                 this.entity.getSeedSlot().shrink( 1 );
             }
         }
 
-        for(Direction d : DIRECTIONS) {
+        for(Direction d : DIRECTIONS){
             if(!entity.getSeedSlot().isEmpty()){
                 if(level.getBlockState( new BlockPos( entity.position() ).relative( d , 1 ) ).getBlock() == Blocks.FARMLAND &&
-                        level.getBlockState( new BlockPos( entity.position() ).above().relative( d , 1 ) ).getBlock() == Blocks.AIR){
+                        level.getBlockState( new BlockPos( entity.position() ).above().relative( d , 1 ) ).getBlock() == Blocks.AIR &&
+                        (this.entity.level.getRawBrightness( new BlockPos( entity.position() ).above().relative( d , 1 ) , 0 ) >= 8 ||
+                                this.entity.level.canSeeSky( new BlockPos( entity.position() ).above().relative( d , 1 ) ))){
                     level.setBlock( new BlockPos( entity.position() ).relative( d , 1 ).above() , crop , 3 );
                     this.entity.getSeedSlot().shrink( 1 );
                 }
@@ -79,7 +88,9 @@ public class PlantSeedsGoal extends Goal{
 
             if(!entity.getSeedSlot().isEmpty()){
                 if(level.getBlockState( new BlockPos( entity.position() ).relative( d , 1 ).below() ).getBlock() == Blocks.FARMLAND &&
-                        level.getBlockState( new BlockPos( entity.position() ).relative( d , 1 ) ).getBlock() == Blocks.AIR){
+                        level.getBlockState( new BlockPos( entity.position() ).relative( d , 1 ) ).getBlock() == Blocks.AIR &&
+                        (this.entity.level.getRawBrightness( new BlockPos( entity.position() ).relative( d , 1 ) , 0 ) >= 8 ||
+                                this.entity.level.canSeeSky( new BlockPos( entity.position() ).relative( d , 1 ) ))){
                     level.setBlock( new BlockPos( entity.position() ).relative( d , 1 ) , crop , 3 );
                     this.entity.getSeedSlot().shrink( 1 );
                 }
@@ -95,6 +106,6 @@ public class PlantSeedsGoal extends Goal{
 
     @Override
     public boolean isInterruptable(){
-        return true;
+        return false;
     }
 }
