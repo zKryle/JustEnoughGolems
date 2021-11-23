@@ -15,7 +15,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = ' 1.4 Plant Golem Release AI Fix 1.17'
+version = ' 1.4.1 Plant Golem Release AI Fix 1.17'
 group = 'com.zkryle.justenoughgolems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'JustEnoughGolems '
 
