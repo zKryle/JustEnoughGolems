@@ -31,7 +31,7 @@ public class PickSeedsUpGoal extends Goal{
                     ItemNameBlockItem item1 = (ItemNameBlockItem) item.getItem().getItem();
                     if(item1.getBlock() instanceof CropBlock){
                         this.entity.getNavigation().moveTo( item , this.speedModifier );
-                        if(entity.distanceTo( item ) < 1.35F){
+                        if(entity.distanceTo( item ) < 1.5F){
                             if(this.entity.getSeedSlot().isEmpty()){
                                 this.entity.setSeedSlot( item.getItem().copy() );
                                 item.kill();

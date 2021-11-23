@@ -21,7 +21,7 @@
 	},
 	"entity.plant_golem_step":{
 		"category": "entity",
-		"subtitle": "entity.plant_golem_step.sub",
+		"subtitle": "",
 		"sounds": [
 			{
 				"name": "justenoughgolems:entity/plant_golem_step1",
