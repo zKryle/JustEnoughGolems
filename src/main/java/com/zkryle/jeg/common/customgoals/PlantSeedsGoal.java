@@ -1,14 +1,14 @@
 package com.zkryle.jeg.common.customgoals;
 
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.item.BlockNamedItem;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ public class PlantSeedsGoal extends Goal{
 
     private static final Direction[] DIRECTIONS = Direction.values();
     private final PlantGolemEntity entity;
-    private World level;
+    private Level level;
     private final int range;
     private final double speedModifier;
 
@@ -47,9 +47,9 @@ public class PlantSeedsGoal extends Goal{
     public void start(){
 
         BlockState crop = Blocks.WHEAT.defaultBlockState();
-        if(entity.getSeedSlot().getItem() instanceof BlockNamedItem){
-            BlockNamedItem item = (BlockNamedItem) entity.getSeedSlot().getItem();
-            if(item.getBlock() instanceof CropsBlock){
+        if(entity.getSeedSlot().getItem() instanceof ItemNameBlockItem){
+            ItemNameBlockItem item = (ItemNameBlockItem) entity.getSeedSlot().getItem();
+            if(item.getBlock() instanceof CropBlock){
                 crop = item.getBlock().defaultBlockState();
             }
         }
