@@ -1,14 +1,14 @@
 package com.zkryle.jeg.common.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.ObserverBlock;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.ObserverBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import javax.annotation.Nullable;
 
@@ -21,10 +21,10 @@ public class MossyObserver extends ObserverBlock{
     }
 
     @Override
-    public BlockState updateShape( BlockState pState , Direction pFacing , BlockState pFacingState , IWorld pLevel , BlockPos pCurrentPos , BlockPos pFacingPos ){
+    public BlockState updateShape( BlockState pState , Direction pFacing , BlockState pFacingState , LevelAccessor pLevel , BlockPos pCurrentPos , BlockPos pFacingPos ){
         if (pState.getValue(FACING) == pFacing && !pState.getValue(POWERED)) {
-            if(pLevel.getBlockState( pCurrentPos.relative( pFacing ) ).getBlock() instanceof CropsBlock){
-                CropsBlock pCropBlock = (CropsBlock) pLevel.getBlockState( pCurrentPos.relative( pFacing ) ).getBlock();
+            if(pLevel.getBlockState( pCurrentPos.relative( pFacing ) ).getBlock() instanceof CropBlock){
+                CropBlock pCropBlock = (CropBlock) pLevel.getBlockState( pCurrentPos.relative( pFacing ) ).getBlock();
                 if(pCropBlock.isMaxAge( pLevel.getBlockState( pCurrentPos.relative( pFacing ) ) )) this.startSignal( pLevel , pCurrentPos );
             }
         }
@@ -32,7 +32,7 @@ public class MossyObserver extends ObserverBlock{
     }
 
     @Override
-    public boolean canConnectRedstone( BlockState state , IBlockReader world , BlockPos pos , @Nullable Direction side ){
+    public boolean canConnectRedstone( BlockState state , BlockGetter world , BlockPos pos , @Nullable Direction side ){
         return state.getValue(FACING) == side;
     }
 }
