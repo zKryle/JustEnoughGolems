@@ -73,7 +73,6 @@ public class PlantGolemEntity extends CreatureEntity{
         super.dropAllDeathLoot( source );
 
     }
-
     private void dropSlotsLoot(){
         level.addFreshEntity( new ItemEntity( this.level , this.position().x() , this.position().y() , this.position().z() , getSeedSlot() ) );
         setSeedSlot( new ItemStack( Items.AIR ) );

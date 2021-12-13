@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " M ",
+    "MDM",
+    " P "
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:mossy_cobblestone"
+    },
+    "D": {
+      "item": "minecraft:observer"
+    },
+    "P": {
+      "item": "justenoughgolems:precious_mossy_cobblestone"
+    }
+  },
+  "result": {
+    "item": "justenoughgolems:mossy_observer",
+    "count": 1
+  }
+}

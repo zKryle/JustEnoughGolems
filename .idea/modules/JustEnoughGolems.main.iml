@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="JustEnoughGolems:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.zkryle.justenoughgolems" external.system.module.type="sourceSet" external.system.module.version=" Plant Golem Release (v1.4.2) Romanian Update 1.16.5" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="JustEnoughGolems:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.zkryle.justenoughgolems" external.system.module.type="sourceSet" external.system.module.version=" Plant Golem Release (v1.4.3) MossyObserver Update 1.16.5" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="minecraft" name="Minecraft">
+      <configuration>
+        <autoDetectTypes>
+          <platformType>FORGE</platformType>
+          <platformType>MIXIN</platformType>
+          <platformType>MCP</platformType>
+        </autoDetectTypes>
+      </configuration>
+    </facet>
+  </component>
+  <component name="McpModuleSettings">
+    <option name="mappingFile" value="C:\Users\ciro2\Desktop\Programmazione\Minecraft\JustEnoughGolems\build\createMcpToSrg\output.tsrg" />
+    <option name="mcpVersion" value="parchment_2021.10.17-1.16.5" />
+    <option name="minecraftVersion" value="1.16.5" />
+    <option name="srgType" value="TSRG" />
+  </component>
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
     <exclude-output />
@@ -12,8 +29,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.16.5-36.2.0_mapped_parchment_2021.10.17-1.16.5" level="project" />
-    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:launcher:1.16.5-36.2.0_mapped_parchment_2021.10.17-1.16.5" level="project" />
+    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.16.5-36.2.0_mapped_parchment_2021.10.17-1.16.5_at_d1c83884557f9b2a020dab5d59fae7c60c788731" level="project" />
+    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:launcher:1.16.5-36.2.0_mapped_parchment_2021.10.17-1.16.5_at_d1c83884557f9b2a020dab5d59fae7c60c788731" level="project" />
     <orderEntry type="library" name="Gradle: net.minecraft:client:extra:1.16.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: net.minecraftforge:mergetool:api:1.0.9" level="project" />

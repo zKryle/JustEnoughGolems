@@ -1,20 +1,22 @@
 package com.zkryle.jeg.core;
 
 import com.zkryle.jeg.JustEnoughGolems;
-import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
+import com.zkryle.jeg.common.blocks.MossyObserver;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,6 +30,9 @@ public class Init{
             () -> new Block( AbstractBlock.Properties.of( Material.STONE ).requiresCorrectToolForDrops()
                     .strength( 2.0F , 6.0F ) ) );
 
+    public static RegistryObject <Block> MOSSY_OBSERVER = BLOCKS.register( "mossy_observer" ,
+            () -> new MossyObserver( AbstractBlock.Properties.copy(Blocks.OBSERVER) ) );
+
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ITEMS -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
     public static DeferredRegister <Item> ITEMS = DeferredRegister.create( ForgeRegistries.ITEMS , JustEnoughGolems.MOD_ID );
@@ -35,6 +40,10 @@ public class Init{
     public static RegistryObject <BlockItem> PRECIOUS_MOSSY_COBBLESTONE_ITEM = ITEMS.register( "precious_mossy_cobblestone" ,
             () -> new BlockItem( PRECIOUS_MOSSY_COBBLESTONE.get() ,
                     new Item.Properties().tab( ItemGroup.TAB_BUILDING_BLOCKS ) ) );
+
+    public static RegistryObject <BlockItem> MOSSY_OBSERVER_ITEM = ITEMS.register( "mossy_observer" ,
+            () -> new BlockItem( MOSSY_OBSERVER.get() ,
+                    new Item.Properties().tab( ItemGroup.TAB_REDSTONE ) ) );
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ENTITIES -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
     public static DeferredRegister <EntityType <?>> ENTITIES = DeferredRegister.create( ForgeRegistries.ENTITIES , JustEnoughGolems.MOD_ID );
@@ -61,4 +70,10 @@ public class Init{
     public static final RegistryObject<SoundEvent> PLANT_GOLEM_STEPS = SOUNDS.register(
             "entity.plant_golem_step",
             () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_step")));
+
+    // Never
+    private static boolean never( BlockState p_235436_0_, IBlockReader p_235436_1_, BlockPos p_235436_2_) {
+        return false;
+    }
+
 }
