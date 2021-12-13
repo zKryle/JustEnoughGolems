@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: net.minecraft:mappings_parchment:zip:2021.12.13-nightly-SNAPSHOT-1.18.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/parchmentgradle/org/parchmentmc/data/parchment-1.18.1/2021.12.13-nightly-SNAPSHOT/parchment-1.18.1-2021.12.13-nightly-SNAPSHOT.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

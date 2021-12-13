@@ -1,6 +1,7 @@
 package com.zkryle.jeg.core;
 
 import com.zkryle.jeg.JustEnoughGolems;
+import com.zkryle.jeg.common.blocks.MossyObserver;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,6 +26,8 @@ public class Init{
     public static RegistryObject <Block> PRECIOUS_MOSSY_COBBLESTONE = BLOCKS.register( "precious_mossy_cobblestone" ,
             () -> new Block( BlockBehaviour.Properties.of( Material.STONE ).requiresCorrectToolForDrops()
                     .strength( 2.0F , 6.0F ) ) );
+    public static RegistryObject <Block> MOSSY_OBSERVER = BLOCKS.register( "mossy_observer" ,
+            () -> new MossyObserver( BlockBehaviour.Properties.copy( Blocks.OBSERVER ) ) );
 
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ITEMS -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -32,6 +36,10 @@ public class Init{
     public static RegistryObject <BlockItem> PRECIOUS_MOSSY_COBBLESTONE_ITEM = ITEMS.register( "precious_mossy_cobblestone" ,
             () -> new BlockItem( PRECIOUS_MOSSY_COBBLESTONE.get() ,
                     new Item.Properties().tab( CreativeModeTab.TAB_BUILDING_BLOCKS ) ) );
+
+    public static RegistryObject <BlockItem> MOSSY_OBSERVER_ITEM = ITEMS.register( "mossy_observer" ,
+            () -> new BlockItem( MOSSY_OBSERVER.get() ,
+                    new Item.Properties().tab( CreativeModeTab.TAB_REDSTONE ) ) );
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ENTITIES -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
     public static DeferredRegister <EntityType <?>> ENTITIES = DeferredRegister.create( ForgeRegistries.ENTITIES , JustEnoughGolems.MOD_ID );
