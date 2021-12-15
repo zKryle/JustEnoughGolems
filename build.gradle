@@ -190,6 +190,6 @@ curseforge {
         id = '548411'
         changelog = file('changelog.txt') // A file can also be set using: changelog = file('changelog.txt')
         releaseType = 'release'
-        addGameVersion "1.17.1"
+        addGameVersion "1.16.5"
     }
 }
