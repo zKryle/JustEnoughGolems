@@ -9,6 +9,11 @@ buildscript {
         classpath 'org.parchmentmc:librarian:1.+'
     }
 }
+
+plugins{
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
@@ -173,5 +178,18 @@ publishing {
         maven {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
+    }
+}
+
+def cf_props = new Properties()
+file(".env").withInputStream { cf_props.load(it) }
+
+curseforge {
+    apiKey = cf_props.get("CF_API_KEY") // This should really be in a gradle.properties file
+    project {
+        id = '548411'
+        changelog = file('changelog.txt') // A file can also be set using: changelog = file('changelog.txt')
+        releaseType = 'release'
+        addGameVersion "1.16.5"
     }
 }
