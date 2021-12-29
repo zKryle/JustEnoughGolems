@@ -77,4 +77,4 @@ _**Credits:**_
 *   <span style="font-family: arial, helvetica, sans-serif; font-size: 18px;">_**<span class="discriminator-1swucG">Translators</span> <span class="discriminator-1swucG">(</span><span class="discriminator-1swucG"><span class="username-2b1r56 username-FvTBog">unweeked</span>#3669,Gremory#8785)</span>**_  
     ![](https://cdn.discordapp.com/attachments/925772114743668736/925772395233566750/cf_line.png)
 
-<span class="discriminator-1swucG">Copyright ©</span>_<span class="discriminator-1swucG"> </span>_<span class="discriminator-1swucG">2021</span>_<span class="discriminator-1swucG"> </span>_<span class="discriminator-1swucG">JEGDevTeam ![](https://cdn.discordapp.com/attachments/925772114743668736/925807993428279316/logo_plantgolem_copia.png)</span>
+<span class="discriminator-1swucG">Copyright ©</span>_<span class="discriminator-1swucG"> </span>_<span class="discriminator-1swucG">2021</span>_<span class="discriminator-1swucG"> </span>_<span class="discriminator-1swucG">JEGDevTeam </span>
