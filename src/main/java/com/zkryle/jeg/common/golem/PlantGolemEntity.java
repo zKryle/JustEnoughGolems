@@ -1,8 +1,13 @@
 package com.zkryle.jeg.common.golem;
 
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import com.zkryle.jeg.common.customgoals.PickSeedsUpGoal;
 import com.zkryle.jeg.common.customgoals.PlantSeedsGoal;
 import com.zkryle.jeg.core.Init;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
@@ -10,7 +15,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -24,15 +32,25 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class PlantGolemEntity extends CreatureEntity{
 
     private ItemStack seedSlot;
+    
+    /**
+     * Used for emulating in-world interacting with the fake player
+     */
+    @Nullable
+    private UUID ownerUUID;
 
     public PlantGolemEntity( EntityType <? extends PlantGolemEntity> entityType , World level ){
         super( entityType , level );
         this.seedSlot = new ItemStack( Items.AIR );
+    }
+    
+    public static PlantGolemEntity createGolem(@Nullable UUID ownerUUID, World level) {
+    	PlantGolemEntity golem = new PlantGolemEntity(Init.PLANT_GOLEM_ENTITY.get(), level);
+    	golem.ownerUUID = ownerUUID;
+    	return golem;
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes(){
@@ -89,12 +107,18 @@ public class PlantGolemEntity extends CreatureEntity{
     @Override
     public boolean save( CompoundNBT compound ){
         compound.put( "SeedSlot" , seedSlot.serializeNBT() );
+        if (ownerUUID != null) {
+        	compound.putUUID("ownerUUID", ownerUUID);
+        }
         return super.save( compound );
     }
 
     @Override
     public void load( CompoundNBT compound ){
         this.seedSlot = ItemStack.of( compound.getCompound( "SeedSlot" ) );
+        if (compound.hasUUID("ownerUUID")) {
+        	this.ownerUUID = compound.getUUID("ownerUUID");
+        }
         super.load( compound );
     }
 
@@ -126,5 +150,10 @@ public class PlantGolemEntity extends CreatureEntity{
 
     @Override
     public void checkDespawn(){
+    }
+    
+    @Nullable
+    public UUID getOwnerUUID() {
+    	return ownerUUID;
     }
 }

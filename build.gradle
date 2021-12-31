@@ -70,7 +70,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/server')
 
             // Recommended logging data for a userdev environment
             // The markers can be changed as needed.
@@ -185,7 +185,7 @@ def cf_props = new Properties()
 file(".env").withInputStream { cf_props.load(it) }
 
 curseforge {
-    apiKey = cf_props.get("CF_API_KEY") // This should really be in a gradle.properties file
+    apiKey = cf_props.get("CF_API_KEY")
     project {
         id = '548411'
         changelog = file('changelog.txt') // A file can also be set using: changelog = file('changelog.txt')
