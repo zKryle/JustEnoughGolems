@@ -14,7 +14,6 @@ import com.zkryle.jeg.core.Init;
 import net.minecraft.world.server.ServerWorld;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,10 +47,5 @@ public class JustEnoughGolems
         if (event.getWorld() instanceof ServerWorld) {
             JEGFakePlayer.releaseInstance(event.getWorld());
         }
-    }
-    
-    @SubscribeEvent
-    public void onEntityPlace(final BlockEvent.EntityPlaceEvent event) {
-    	event.setCanceled(false);
     }
 }
