@@ -1,6 +1,10 @@
 package com.zkryle.jeg.common.customgoals;
 
+import java.util.Random;
+
+import com.zkryle.jeg.common.JEGFakePlayer;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
@@ -9,8 +13,10 @@ import net.minecraft.item.BlockNamedItem;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
-import java.util.Random;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.event.ForgeEventFactory;
 
 
 public class PlantSeedsGoal extends Goal{
@@ -70,8 +76,11 @@ public class PlantSeedsGoal extends Goal{
                     level.getBlockState( new BlockPos( entity.position() ).above() ).getBlock() == Blocks.AIR &&
                     (this.entity.level.getRawBrightness( new BlockPos( this.entity.position() ).above() , 0 ) >= 8 ||
                             this.entity.level.canSeeSky( new BlockPos( this.entity.position() ).above() ))){
-                level.setBlock( new BlockPos( entity.position() ).above() , crop , 3 );
-                this.entity.getSeedSlot().shrink( 1 );
+            	BlockPos targetPos = new BlockPos(entity.position()).above();
+            	if (canGolemPlace(crop, targetPos)) {
+            		level.setBlock(targetPos, crop, 3);
+                	this.entity.getSeedSlot().shrink(1);
+            	}
             }
         }
 
@@ -81,8 +90,11 @@ public class PlantSeedsGoal extends Goal{
                         level.getBlockState( new BlockPos( entity.position() ).above().relative( d , 1 ) ).getBlock() == Blocks.AIR &&
                         (this.entity.level.getRawBrightness( new BlockPos( entity.position() ).above().relative( d , 1 ) , 0 ) >= 8 ||
                                 this.entity.level.canSeeSky( new BlockPos( entity.position() ).above().relative( d , 1 ) ))){
-                    level.setBlock( new BlockPos( entity.position() ).relative( d , 1 ).above() , crop , 3 );
-                    this.entity.getSeedSlot().shrink( 1 );
+                    BlockPos targetPos = new BlockPos(entity.position()).relative(d, 1).above();
+                    if (canGolemPlace(crop, targetPos)) {
+                		level.setBlock(targetPos, crop, 3);
+                    	this.entity.getSeedSlot().shrink(1);
+                	}
                 }
             }
 
@@ -91,11 +103,24 @@ public class PlantSeedsGoal extends Goal{
                         level.getBlockState( new BlockPos( entity.position() ).relative( d , 1 ) ).getBlock() == Blocks.AIR &&
                         (this.entity.level.getRawBrightness( new BlockPos( entity.position() ).relative( d , 1 ) , 0 ) >= 8 ||
                                 this.entity.level.canSeeSky( new BlockPos( entity.position() ).relative( d , 1 ) ))){
-                    level.setBlock( new BlockPos( entity.position() ).relative( d , 1 ) , crop , 3 );
-                    this.entity.getSeedSlot().shrink( 1 );
+                	BlockPos targetPos = new BlockPos(entity.position()).relative(d, 1);
+                	if (canGolemPlace(crop, targetPos)) {
+                		level.setBlock(targetPos, crop, 3);
+                    	this.entity.getSeedSlot().shrink(1);
+                	}
                 }
             }
         }
+    }
+    
+    private boolean canGolemPlace(BlockState state, BlockPos pos) {
+    	if (entity.getOwnerUUID() == null) {
+    		return true;
+    	}
+        return JEGFakePlayer.withFakePlayer((ServerWorld) level, this.entity.getX(), this.entity.getY(), this.entity.getZ(), player -> {
+            player.setEmulatingUUID(entity.getOwnerUUID()); //pretend to be the golem owner
+            return !ForgeEventFactory.onBlockPlace(player, BlockSnapshot.create(entity.level.dimension(), entity.level, pos), Direction.UP);
+        });
     }
 
     @Override
