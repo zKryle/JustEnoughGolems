@@ -20,7 +20,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = ' Plant Golem Release (v1.4.3) MossyObserver Update 1.16.5'
+version = ' Plant Golem Release (v2.0) Magma Release 1.16.5'
 group = 'com.zkryle.justenoughgolems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'JustEnoughGolems '
 

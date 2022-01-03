@@ -18,13 +18,11 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SwordItem;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
@@ -41,7 +39,6 @@ public class MagmaticGolemEntity extends TameableEntity{
 
     public MagmaticGolemEntity( EntityType <? extends MagmaticGolemEntity> entityType , World level ){
         super( entityType , level );
-        this.setItemInHand( Hand.MAIN_HAND , new ItemStack( Items.GOLDEN_AXE ) );
     }
 
     private MagmaticGolemEntity( World level ){
@@ -55,6 +52,12 @@ public class MagmaticGolemEntity extends TameableEntity{
     public static AttributeModifierMap.MutableAttribute createAttributes(){
         return MobEntity.createMobAttributes().add( Attributes.MAX_HEALTH , 40.0D ).add( Attributes.ATTACK_DAMAGE , 1.5D )
                 .add( Attributes.KNOCKBACK_RESISTANCE , 1.0D );
+    }
+
+    @Override
+    public ILivingEntityData finalizeSpawn( IServerWorld p_146746_ , DifficultyInstance p_146747_ , SpawnReason p_146748_ , @Nullable ILivingEntityData p_146749_ , @Nullable CompoundNBT p_146750_ ){
+        if(!p_146748_.equals( SpawnReason.CHUNK_GENERATION )) this.setItemInHand( Hand.MAIN_HAND , new ItemStack( Items.GOLDEN_AXE ) );
+        return super.finalizeSpawn( p_146746_ , p_146747_ , p_146748_ , p_146749_ , p_146750_ );
     }
 
     @Override

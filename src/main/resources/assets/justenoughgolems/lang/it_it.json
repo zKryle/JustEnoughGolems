@@ -1,6 +1,17 @@
 {
+  "itemGroup.jeg_itemgroup": "JustEnoughGolems",
+  "entity.justenoughgolems.plant_golem": "Golem Pianta",
   "block.justenoughgolems.precious_mossy_cobblestone": "Pietrisco Muschioso Prezioso",
   "block.justenoughgolems.mossy_observer": "Osservatore Muschioso",
-  "entity.plant_golem_hit.sub": "Golem Pianta Colpito",
-  "entity.plant_golem_death.sub": "Golem Pianta Morto"
+  "entity.plant_golem_hurts.sub": "Golem Pianta Colpito",
+  "entity.plant_golem_dies.sub": "Golem Pianta Morto",
+
+  "entity.justenoughgolems.magmatic_golem": "Golem Magmatico",
+  "entity.justenoughgolems.enraged_magmatic_golem": "Golem Magmatico Infuriato",
+  "block.justenoughgolems.magmatic_obsidian": "Ossidiana Magmatica",
+  "block.justenoughgolems.charging_table": "Tavolo da Ricarica",
+  "item.justenoughgolems.magmatic_obsidian_shard": "Frammento di Ossidiana Magmatica",
+  "item.justenoughgolems.magmatic_charm": "Amuleto Magmatico",
+  "item.justenoughgolems.magmatic_pendant": "Collana Magmatica",
+  "item.justenoughgolems.nether_core": "Cuore del Nether"
 }
