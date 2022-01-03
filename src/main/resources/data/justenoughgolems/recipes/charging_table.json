@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IMI",
+    "MNM",
+    "IMI"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "M": {
+      "item": "justenoughgolems:magmatic_obsidian"
+    }
+  },
+  "result": {
+    "item": "justenoughgolems:charging_table",
+    "count": 1
+  }
+}

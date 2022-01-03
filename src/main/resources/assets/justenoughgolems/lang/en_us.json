@@ -1,6 +1,18 @@
 {
+  "itemGroup.jeg_itemgroup": "JustEnoughGolems",
+
+  "entity.justenoughgolems.plant_golem": "Plant Golem",
   "block.justenoughgolems.precious_mossy_cobblestone": "Precious Mossy Cobblestone",
   "block.justenoughgolems.mossy_observer": "Mossy Observer",
-  "entity.plant_golem_hit.sub": "Plant Golem Hit",
-  "entity.plant_golem_death.sub": "Plant Golem Death"
+  "entity.plant_golem_hurts.sub": "Plant Golem hurts",
+  "entity.plant_golem_dies.sub": "Plant Golem dies",
+
+  "entity.justenoughgolems.magmatic_golem": "Magmatic Golem",
+  "entity.justenoughgolems.enraged_magmatic_golem": "Enraged Magmatic Golem",
+  "block.justenoughgolems.magmatic_obsidian": "Magmatic Obsidian",
+  "block.justenoughgolems.charging_table": "Charging Table",
+  "item.justenoughgolems.magmatic_obsidian_shard": "Magmatic Obsidian Shard",
+  "item.justenoughgolems.magmatic_charm": "Magmatic Charm",
+  "item.justenoughgolems.magmatic_pendant": "Magmatic Pendant",
+  "item.justenoughgolems.nether_core": "Nether Core"
 }
