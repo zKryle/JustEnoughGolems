@@ -61,10 +61,10 @@ public class PlantGolemEntity extends CreatureEntity{
     protected void registerGoals(){
         super.registerGoals();
         this.goalSelector.addGoal( 1 , new PlantSeedsGoal( this , 30 , 0.30D ) );
-        this.goalSelector.addGoal( 5 , new RandomWalkingGoal( this , 0.30D ) );
-        this.goalSelector.addGoal( 3 , new LookAtGoal( this , LivingEntity.class , 5.0f ) );
         this.goalSelector.addGoal( 2 , new LookRandomlyGoal( this ) );
+        this.goalSelector.addGoal( 3 , new LookAtGoal( this , LivingEntity.class , 5.0f ) );
         this.goalSelector.addGoal( 4 , new PickSeedsUpGoal( this , 0.30D ) );
+        this.goalSelector.addGoal( 5 , new RandomWalkingGoal( this , 0.30D ) );
         this.goalSelector.addGoal( 6 , new PanicGoal( this , 0.50D ) );
     }
 
@@ -133,18 +133,18 @@ public class PlantGolemEntity extends CreatureEntity{
     @Nullable
     @Override
     protected SoundEvent getDeathSound(){
-        return Init.PLANT_GOLEM_DEATH.get();
+        return Init.PLANT_GOLEM_DIES.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getHurtSound( DamageSource p_184601_1_ ){
-        return Init.PLANT_GOLEM_HIT.get();
+        return Init.PLANT_GOLEM_HURTS.get();
     }
 
     @Override
     protected void playStepSound( BlockPos p_180429_1_ , BlockState p_180429_2_ ){
-        this.playSound( Init.PLANT_GOLEM_STEPS.get() , this.getSoundVolume() , this.getVoicePitch() );
+        this.playSound( Init.PLANT_GOLEM_STEP.get() , this.getSoundVolume() , this.getVoicePitch() );
         super.playStepSound( p_180429_1_ , p_180429_2_ );
     }
 

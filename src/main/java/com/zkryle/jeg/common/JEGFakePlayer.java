@@ -320,7 +320,6 @@ public class JEGFakePlayer extends FakePlayer {
 		@Override
 		public void send(IPacket<?> pPacket,
 				GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> pFutureListeners) {
-			super.send(pPacket, pFutureListeners);
 		}
 
 		@Override
@@ -432,7 +431,6 @@ public class JEGFakePlayer extends FakePlayer {
 			@Override
 			public void send(IPacket<?> pPacket,
 					GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> p_201058_2_) {
-				super.send(pPacket, p_201058_2_);
 			}
 
 			@Override

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MIM",
+    "NGN",
+    "MMM"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "M": {
+      "item": "justenoughgolems:magmatic_obsidian_shard"
+    }
+  },
+  "result": {
+    "item": "justenoughgolems:nether_core",
+    "count": 1
+  }
+}

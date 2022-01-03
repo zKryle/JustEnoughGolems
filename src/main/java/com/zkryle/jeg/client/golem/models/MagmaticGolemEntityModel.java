@@ -8,10 +8,13 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 
-public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends EntityModel <T> {
+public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends EntityModel <T> implements IHasArm{
 	private final ModelRenderer wholebody;
 	private final ModelRenderer neck;
 	private final ModelRenderer arm1;
@@ -25,6 +28,7 @@ public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends Ent
 	private final ModelRenderer cube_r2;
 	private final ModelRenderer cube_r3;
 
+
 	public MagmaticGolemEntityModel() {
 		texWidth = 32;
 		texHeight = 32;
@@ -32,7 +36,7 @@ public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends Ent
 		wholebody = new ModelRenderer(this);
 		wholebody.setPos(-0.5F, 18.0F, 0.0F);
 		setRotationAngle(wholebody, -3.1416F, 0.0F, 3.1416F);
-		
+
 
 		neck = new ModelRenderer(this);
 		neck.setPos(-0.1F, -2.0F, 0.0F);
@@ -68,7 +72,7 @@ public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends Ent
 		wholehead = new ModelRenderer(this);
 		wholehead.setPos(-0.1F, -2.4F, 0.0F);
 		wholebody.addChild(wholehead);
-		
+
 
 		head = new ModelRenderer(this);
 		head.setPos(-0.1F, 0.0F, 0.0F);
@@ -96,13 +100,31 @@ public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends Ent
 	}
 
 	@Override
-	public void setupAnim( MagmaticGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float ageInTicks, float pNetHeadYaw, float pHeadPitch){
-		this.wholehead.xRot = pHeadPitch * ((float)Math.PI / -180F);
+	public void setupAnim( T entity, float pLimbSwing, float pLimbSwingAmount, float ageInTicks, float pNetHeadYaw, float pHeadPitch){
+		boolean flag = entity.getFallFlyingTicks() > 4;
+		boolean isOn = entity.isOn();
+		this.wholehead.xRot = entity.headInclination >= 0.0F ? pHeadPitch * ((float)Math.PI / -180F) : entity.headInclination;
 		this.wholehead.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-		this.leg1.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
-		this.leg2.xRot = MathHelper.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
-		this.arm2.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
-		this.arm1.xRot = MathHelper.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
+		this.leg1.xRot = isOn ? MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount : 0.0F;
+		this.leg2.xRot = isOn ? MathHelper.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount : 0.0F;
+		float f = 1.0F;
+		if (flag) {
+			f = (float)entity.getDeltaMovement().lengthSqr();
+			f = f / 0.2F;
+			f = f * f * f;
+		}
+
+		if (f < 1.0F) {
+			f = 1.0F;
+		}
+		this.arm2.xRot = isOn ? MathHelper.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 2.0F * pLimbSwingAmount * 0.5F / -f : 0.0F;
+		this.arm1.xRot = isOn ? MathHelper.cos(pLimbSwing * 0.6662F) * 2.0F * pLimbSwingAmount * 0.5F / -f : 0.0F;
+		this.arm2.zRot = 0.0F;
+		this.arm1.zRot = 0.0F;
+		if(!entity.getMainHandItem().isEmpty()){
+			this.arm2.xRot = this.arm2.xRot * 0.5F + ((float)Math.PI / 10F);
+		}
+		setupAttackAnimation( entity, ageInTicks );
 	}
 
 	@Override
@@ -117,4 +139,43 @@ public class MagmaticGolemEntityModel<T extends MagmaticGolemEntity> extends Ent
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
 	}
+
+	@Override
+	public void translateToHand( HandSide pSide , MatrixStack pMatrixStack ){
+		pMatrixStack.scale( 0.5f, 0.5f, 0.5f );
+		pMatrixStack.translate( -0.35d, 2.3d, 0.05d );
+		pMatrixStack.mulPose( Vector3f.YP.rotationDegrees( 180.0F ) );
+		this.arm2.translateAndRotate(pMatrixStack);
+		pMatrixStack.mulPose( Vector3f.YN.rotationDegrees( 180.0F ) );
+		pMatrixStack.mulPose( Vector3f.XN.rotationDegrees( 5.0F ) );
+	}
+
+	protected ModelRenderer getArm(HandSide pSide) {
+		return pSide == HandSide.LEFT ? this.arm2 : this.arm1;
+	}
+
+	protected void setupAttackAnimation(T p_230486_1_, float p_230486_2_){
+		if(!(this.attackTime <= 0.0F)){
+			HandSide handside = HandSide.RIGHT;
+			ModelRenderer modelrenderer = this.arm2;
+			float f = this.attackTime;
+
+			f = 1.0F - this.attackTime;
+			f = f * f;
+			f = f * f;
+			f = 1.0F - f;
+			float f1 = MathHelper.sin( f * (float) Math.PI );
+			float f2 = MathHelper.sin( this.attackTime * (float) Math.PI ) * -(this.head.xRot - 0.7F) * 0.75F;
+			modelrenderer.xRot = (float) ((double) modelrenderer.xRot + ((double) f1 * 1.2D + (double) f2));
+			modelrenderer.zRot += MathHelper.sin( this.attackTime * (float) Math.PI ) * 0.4F;
+		}
+	}
+
+	@Override
+    public void copyPropertiesTo(EntityModel<T> p_217111_1_) {
+        p_217111_1_.attackTime = this.attackTime;
+        p_217111_1_.riding = this.riding;
+        p_217111_1_.young = this.young;
+		super.copyPropertiesTo( p_217111_1_ );
+    }
 }

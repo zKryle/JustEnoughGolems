@@ -41,12 +41,16 @@ public class PlantSeedsGoal extends Goal{
                     (int) entity.getX() + range , (int) entity.getY() + 2 , (int) entity.getZ() + range )){
 
                 if(level.getBlockState( block ).getBlock() == Blocks.FARMLAND && level.getBlockState( block.above() ).getBlock() == Blocks.AIR){
-                    start();
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean canContinueToUse(){
+        return !this.entity.getNavigation().isDone();
     }
 
     @Override
@@ -121,12 +125,6 @@ public class PlantSeedsGoal extends Goal{
             player.setEmulatingUUID(entity.getOwnerUUID()); //pretend to be the golem owner
             return !ForgeEventFactory.onBlockPlace(player, BlockSnapshot.create(entity.level.dimension(), entity.level, pos), Direction.UP);
         });
-    }
-
-    @Override
-    public void stop(){
-        this.entity.getNavigation().stop();
-        super.stop();
     }
 
     @Override
