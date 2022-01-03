@@ -35,12 +35,16 @@ public class PlantSeedsGoal extends Goal{
                     (int) entity.getX() + range , (int) entity.getY() + 2 , (int) entity.getZ() + range )){
 
                 if(level.getBlockState( block ).getBlock() == Blocks.FARMLAND && level.getBlockState( block.above() ).getBlock() == Blocks.AIR){
-                    start();
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean canContinueToUse(){
+        return !this.entity.getNavigation().isDone();
     }
 
     @Override
@@ -96,12 +100,6 @@ public class PlantSeedsGoal extends Goal{
                 }
             }
         }
-    }
-
-    @Override
-    public void stop(){
-        this.entity.getNavigation().stop();
-        super.stop();
     }
 
     @Override

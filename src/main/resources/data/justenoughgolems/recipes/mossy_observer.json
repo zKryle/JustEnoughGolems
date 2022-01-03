@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " M ",
-    "MDM",
+    "MOM",
     " P "
   ],
   "key": {
     "M": {
       "item": "minecraft:mossy_cobblestone"
     },
-    "D": {
+    "O": {
       "item": "minecraft:observer"
     },
     "P": {

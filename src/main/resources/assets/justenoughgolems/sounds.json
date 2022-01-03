@@ -1,5 +1,5 @@
 {
-	"entity.plant_golem_death": {
+	"entity.plant_golem_dies": {
 		"category": "entity",
 		"subtitle": "entity.plant_golem_death.sub",
 		"sounds": [
@@ -9,7 +9,7 @@
 			}
 		]
 	},
-	"entity.plant_golem_hit": {
+	"entity.plant_golem_hurts": {
 		"category": "entity",
 		"subtitle": "entity.plant_golem_hit.sub",
 		"sounds": [
@@ -21,7 +21,6 @@
 	},
 	"entity.plant_golem_step":{
 		"category": "entity",
-		"subtitle": "",
 		"sounds": [
 			{
 				"name": "justenoughgolems:entity/plant_golem_step1",
@@ -33,6 +32,264 @@
 			},
 			{
 				"name": "justenoughgolems:entity/plant_golem_step3",
+				"stream": false
+			}
+		]
+	},
+	"entity.magmatic_golem_transforms":{
+		"category": "entity",
+		"subtitle": "entity.magmatic_golem_transforms.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_transforms",
+				"stream": false
+			}
+		]
+	},
+	"entity.magmatic_golem_dies":{
+		"category": "entity",
+		"subtitle": "entity.magmatic_golem_dies.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_dies",
+				"stream": false
+			}
+		]
+	},
+	"entity.magmatic_golem_hurts":{
+		"category": "entity",
+		"subtitle": "entity.magmatic_golem_hurts.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_hurts1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_hurts2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_hurts3",
+				"stream": false
+			}
+		]
+	},
+	"entity.magmatic_golem_starting":{
+		"category": "entity",
+		"subtitle": "entity.magmatic_golem_starting.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_starting",
+				"stream": false
+			}
+		]
+	},
+	"entity.magmatic_golem_shutdown":{
+		"category": "entity",
+		"subtitle": "entity.magmatic_golem_shutdown.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/magmatic_golem_shutdown",
+				"stream": false
+			}
+		]
+	},
+	"entity.inserting_core_golem":{
+		"category": "entity",
+		"subtitle": "entity.inserting_core_golem.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/inserting_core_golem1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/inserting_core_golem2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/inserting_core_golem3",
+				"stream": false
+			}
+		]
+	},
+	"entity.enraged_magmatic_golem_attack":{
+		"category": "entity",
+		"subtitle": "entity.enraged_magmatic_golem_attack.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_attack",
+				"stream": false
+			}
+		]
+	},
+	"entity.enraged_golem_spike_attack":{
+		"category": "entity",
+		"subtitle": "entity.enraged_golem_spike_attack.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_golem_spike_attack",
+				"stream": false
+			}
+		]
+	},
+	"entity.enraged_golem_spike_sound":{
+		"category": "entity",
+		"subtitle": "entity.enraged_golem_spike_sound.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_golem_spike_sound",
+				"stream": false
+			}
+		]
+	},
+	"block.inserting_core":{
+		"category": "block",
+		"subtitle": "block.inserting_core.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:block/inserting_core1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:block/inserting_core2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:block/inserting_core3",
+				"stream": false
+			}
+		]
+	},
+	"entity.golem_extracting_core":{
+		"category": "entity",
+		"subtitle": "entity.golem_extracting_core.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/golem_extracting_core",
+				"stream": false
+			}
+		]
+	},
+	"entity.enraged_magmatic_golem_hurt":{
+		"category": "entity",
+		"subtitle": "entity.enraged_magmatic_golem_hurt.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_hurt1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_hurt2",
+				"stream": false
+			}
+		]
+	},
+	"entity.enraged_magmatic_golem_dies":{
+		"category": "entity",
+		"subtitle": "entity.enraged_magmatic_golem_dies.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_dies",
+				"stream": false
+			}
+		]
+	},
+	"entity.ground_punch":{
+		"category": "entity",
+		"subtitle": "entity.ground_punch.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/ground_punch1",
+				"stream": false,
+				"attenuation_distance": 24
+			},
+			{
+				"name": "justenoughgolems:entity/ground_punch2",
+				"stream": false,
+				"attenuation_distance": 24
+			},
+			{
+				"name": "justenoughgolems:entity/ground_punch3",
+				"stream": false,
+				"attenuation_distance": 24
+			}
+		]
+	},
+	"entity.enraged_magmatic_golem_step":{
+		"category": "entity",
+		"sounds": [
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step3",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step4",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step5",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:entity/enraged_magmatic_golem_step6",
+				"stream": false
+			}
+		]
+	},
+	"block.extracting_core":{
+		"category": "block",
+		"subtitle": "block.extracting_core.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:block/extracting_core1",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:block/extracting_core2",
+				"stream": false
+			},
+			{
+				"name": "justenoughgolems:block/extracting_core3",
+				"stream": false
+			}
+		]
+	},
+	"block.charging_table.loop":{
+		"category": "block",
+		"subtitle": "block.charging_table.loop.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:block/charging_table/loop",
+				"stream": false,
+				"attenuation_distance": 5
+			}
+		]
+	},
+	"block.charging_table.loop_end":{
+		"category": "block",
+		"subtitle": "block.charging_table.loop_end.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:block/charging_table/loop_end",
+				"stream": false,
+				"attenuation_distance": 5
+			}
+		]
+	},
+	"block.charging_table.lava":{
+		"category": "block",
+		"subtitle": "block.charging_table.lava.sub",
+		"sounds": [
+			{
+				"name": "justenoughgolems:block/charging_table/lava",
 				"stream": false
 			}
 		]
