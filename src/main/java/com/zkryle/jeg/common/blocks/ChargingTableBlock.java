@@ -78,10 +78,5 @@ public class ChargingTableBlock extends Block {
         }
         return super.use( pState , pLevel , pPos , pPlayer , pHand , pHit );
     }
-
-    @Override
-    public void spawnAfterBreak( BlockState pState , ServerWorld pLevel , BlockPos pPos , ItemStack pStack ){
-        ChargingTableTileEntity te = (ChargingTableTileEntity) pLevel.getBlockEntity( pPos );
-        if(te.getCore() != null) pLevel.addFreshEntity( new ItemEntity( pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), te.getCore() ) );
-    }
+    
 }

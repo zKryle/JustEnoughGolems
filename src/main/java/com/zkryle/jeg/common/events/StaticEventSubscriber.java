@@ -4,12 +4,14 @@ import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
+import com.zkryle.jeg.common.tileentities.ChargingTableTileEntity;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -154,6 +156,14 @@ public class StaticEventSubscriber{
         if (event.getCategory().equals( Biome.Category.NETHER)) {
             event.getSpawns().addSpawn(EntityClassification.MONSTER,
                     new MobSpawnInfo.Spawners(Init.MAGMATIC_GOLEM_ENTITY.get(), 5, 1, 1));
+        }
+    }
+
+    @SubscribeEvent
+    public static void blockBroken(final BlockEvent.BreakEvent event){
+        if(event.getWorld().getBlockEntity( event.getPos() ) instanceof ChargingTableTileEntity){
+            ChargingTableTileEntity te = (ChargingTableTileEntity) event.getWorld().getBlockEntity( event.getPos() );
+            if(te.getCore() != null) event.getWorld().addFreshEntity( new ItemEntity( (World) event.getWorld() , event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), te.getCore() ) );
         }
     }
 }
