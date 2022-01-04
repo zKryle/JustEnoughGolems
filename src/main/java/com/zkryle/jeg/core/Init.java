@@ -22,9 +22,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import static com.zkryle.jeg.core.JEGItemGroup.JEG_ITEM_GROUP;
 
@@ -126,7 +126,7 @@ public class Init{
             "block.inserting_core",
             () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.inserting_core")));
 
-    public static final RegistryObject<SoundEvent> EXTRACTING_CORE = SOUNDS.register(
+    public static final RegistryObject <SoundEvent> EXTRACTING_CORE = SOUNDS.register(
             "block.extracting_core",
             () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.extracting_core")));
 

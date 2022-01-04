@@ -14,7 +14,7 @@ import com.zkryle.jeg.core.Init;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -25,8 +25,8 @@ public class StaticClientEventSubscriber{
 
     @SubscribeEvent
     public static void registerAdditionalModels( ModelRegistryEvent event ){
-        ModelLoader.addSpecialModel( RECHARGING_CORE );
-        ModelLoader.addSpecialModel( FULL_CORE );
+        ForgeModelBakery.addSpecialModel( RECHARGING_CORE );
+        ForgeModelBakery.addSpecialModel( FULL_CORE );
     }
 
     @SubscribeEvent

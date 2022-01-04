@@ -58,7 +58,7 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
         CompoundTag nbt = new CompoundTag();
         this.save(nbt);
         this.setChanged();
-        return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 0, nbt);
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
