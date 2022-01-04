@@ -1,6 +1,6 @@
 package com.zkryle.jeg.common;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface ICoreOwner {
     boolean hasCore();

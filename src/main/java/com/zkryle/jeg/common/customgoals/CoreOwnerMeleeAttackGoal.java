@@ -2,21 +2,21 @@ package com.zkryle.jeg.common.customgoals;
 
 import com.zkryle.jeg.common.ICoreOwner;
 import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public class CoreOwnerMeleeAttackGoal extends MeleeAttackGoal{
     private final ICoreOwner coreOwnerEntity;
 
     public CoreOwnerMeleeAttackGoal( ICoreOwner p_i1636_1_ , double p_i1636_2_ , boolean p_i1636_4_ ){
-        super( (CreatureEntity) p_i1636_1_ , p_i1636_2_ , p_i1636_4_ );
+        super( (PathfinderMob) p_i1636_1_ , p_i1636_2_ , p_i1636_4_ );
         this.coreOwnerEntity = p_i1636_1_;
     }
 
     @Override
     public boolean canUse(){
-        if(this.coreOwnerEntity.isDelayElapsed() && coreOwnerEntity.getCorePercentage() > 2 && ((TameableEntity)coreOwnerEntity).goalSelector.getRunningGoals()
+        if(this.coreOwnerEntity.isDelayElapsed() && coreOwnerEntity.getCorePercentage() > 2 && ((TamableAnimal)coreOwnerEntity).goalSelector.getRunningGoals()
                 .noneMatch( goal -> goal.getGoal() instanceof EnragedMagmaticGolemEntity.SpikeAttackGoal )){
             return super.canUse();
         }
@@ -25,7 +25,7 @@ public class CoreOwnerMeleeAttackGoal extends MeleeAttackGoal{
 
     @Override
     public boolean canContinueToUse(){
-        if(this.coreOwnerEntity.isDelayElapsed() && coreOwnerEntity.getCorePercentage() > 2 && ((TameableEntity)coreOwnerEntity).goalSelector.getRunningGoals()
+        if(this.coreOwnerEntity.isDelayElapsed() && coreOwnerEntity.getCorePercentage() > 2 && ((TamableAnimal)coreOwnerEntity).goalSelector.getRunningGoals()
                 .noneMatch( goal -> goal.getGoal() instanceof EnragedMagmaticGolemEntity.SpikeAttackGoal )){
             return super.canContinueToUse();
         }

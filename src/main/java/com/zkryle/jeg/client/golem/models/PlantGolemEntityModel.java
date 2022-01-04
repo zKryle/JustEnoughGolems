@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
+import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
@@ -20,7 +21,7 @@ import net.minecraft.world.entity.HumanoidArm;
 
 public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityModel <T> implements ArmedModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "plantgolementitymodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation( JustEnoughGolems.MOD_ID, "plant_golem"), "plant_golem");
 	private final ModelPart neck;
 	private final ModelPart wholehead;
 	private final ModelPart stomach;

@@ -2,59 +2,69 @@ package com.zkryle.jeg.common.golem;
 
 import com.zkryle.jeg.common.customgoals.TamedNearestAttackGoal;
 import com.zkryle.jeg.core.Init;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.entity.monster.piglin.PiglinEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.SwordItem;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.*;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.piglin.Piglin;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class MagmaticGolemEntity extends TameableEntity{
+public class MagmaticGolemEntity extends TamableAnimal{
 
     public float headInclination;
     private boolean isOn = true;
     private ArrayList <Goal> registeredGoals;
     public boolean isTransforming = false;
 
-    public MagmaticGolemEntity( EntityType <? extends MagmaticGolemEntity> entityType , World level ){
+    public MagmaticGolemEntity( EntityType <? extends MagmaticGolemEntity> entityType , Level level ){
         super( entityType , level );
-        this.setItemInHand( Hand.MAIN_HAND , new ItemStack( Items.GOLDEN_AXE ) );
     }
 
-    private MagmaticGolemEntity( World level ){
+    private MagmaticGolemEntity( Level level ){
         this( Init.MAGMATIC_GOLEM_ENTITY.get() , level );
     }
 
-    public static MagmaticGolemEntity createMagmaticGolemEntity( World level ){
+    public static MagmaticGolemEntity createMagmaticGolemEntity( Level level ){
         return new MagmaticGolemEntity( level );
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes(){
-        return MobEntity.createMobAttributes().add( Attributes.MAX_HEALTH , 40.0D ).add( Attributes.ATTACK_DAMAGE , 1.5D )
+    public static AttributeSupplier.Builder createAttributes(){
+        return Mob.createMobAttributes().add( Attributes.MAX_HEALTH , 40.0D ).add( Attributes.ATTACK_DAMAGE , 1.5D )
                 .add( Attributes.KNOCKBACK_RESISTANCE , 1.0D );
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn( ServerLevelAccessor p_146746_ , DifficultyInstance p_146747_ , MobSpawnType p_146748_ , @Nullable SpawnGroupData p_146749_ , @Nullable CompoundTag p_146750_ ){
+        if(!p_146748_.equals( MobSpawnType.CHUNK_GENERATION )) this.setItemInHand( InteractionHand.MAIN_HAND , new ItemStack( Items.GOLDEN_AXE ) );
+        return super.finalizeSpawn( p_146746_ , p_146747_ , p_146748_ , p_146749_ , p_146750_ );
     }
 
     @Override
@@ -63,14 +73,14 @@ public class MagmaticGolemEntity extends TameableEntity{
         addToRegisteredGoals(
                 new MeleeAttackGoal( this , 0.45D , false ) ,
                 new FollowOwnerGoal( this , 0.45D , 7.5F , 2.0F , false ) ,
-                new WaterAvoidingRandomWalkingGoal( this , 0.30D ) ,
-                new LookAtGoal( this , LivingEntity.class , 5.0f ) ,
-                new LookRandomlyGoal( this ) );
+                new WaterAvoidingRandomStrollGoal( this , 0.30D ) ,
+                new LookAtPlayerGoal( this , LivingEntity.class , 5.0f ) ,
+                new RandomLookAroundGoal( this ) );
         this.targetSelector.addGoal( 2 , new OwnerHurtTargetGoal( this ) );
         this.targetSelector.addGoal( 3 , (new HurtByTargetGoal( this )).setAlertOthers() );
-        this.targetSelector.addGoal( 4 , new NearestAttackableTargetGoal <>( this , PiglinEntity.class , false ) );
-        this.targetSelector.addGoal( 5 , new NearestAttackableTargetGoal <>( this , AbstractSkeletonEntity.class , false ) );
-        this.targetSelector.addGoal( 6 , new TamedNearestAttackGoal <>( this , PlayerEntity.class , false ) );
+        this.targetSelector.addGoal( 4 , new NearestAttackableTargetGoal <>( this , Piglin.class , false ) );
+        this.targetSelector.addGoal( 5 , new NearestAttackableTargetGoal <>( this , AbstractSkeleton.class , false ) );
+        this.targetSelector.addGoal( 6 , new TamedNearestAttackGoal <>( this , Player.class , false ) );
     }
 
     private void addToRegisteredGoals( Goal... goals ){
@@ -86,7 +96,7 @@ public class MagmaticGolemEntity extends TameableEntity{
 
     @Nullable
     @Override
-    public AgeableEntity getBreedOffspring( ServerWorld p_241840_1_ , AgeableEntity p_241840_2_ ){
+    public AgeableMob getBreedOffspring( ServerLevel p_241840_1_ , AgeableMob p_241840_2_ ){
         return null;
     }
 
@@ -94,16 +104,16 @@ public class MagmaticGolemEntity extends TameableEntity{
      * Deprecated call, overriding/implementing is fine.
      */
     @Deprecated
-    public void setTamed( PlayerEntity pPlayer ){
+    public void setTamed( Player pPlayer ){
         this.tame( pPlayer );
         this.navigation.stop();
         this.setTarget( (LivingEntity) null );
         this.level.broadcastEntityEvent( this , (byte) 7 );
-        this.setItemInHand( Hand.MAIN_HAND , ItemStack.EMPTY );
+        this.setItemInHand( InteractionHand.MAIN_HAND , ItemStack.EMPTY );
     }
 
     @Override
-    public ActionResultType mobInteract( PlayerEntity pPlayer , Hand pHand ){
+    public InteractionResult mobInteract( Player pPlayer , InteractionHand pHand ){
         if(pPlayer.getItemInHand( pHand ).getItem() == Items.BLAZE_ROD &&
                 pPlayer.getUUID().equals( this.getOwnerUUID() )){
 
@@ -113,43 +123,43 @@ public class MagmaticGolemEntity extends TameableEntity{
 
             this.setOn( !this.isOn() );
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
 
         }else if((pPlayer.getItemInHand( pHand ).getItem() instanceof SwordItem ||
                 pPlayer.getItemInHand( pHand ).getItem() instanceof AxeItem) &&
-                this.getItemBySlot( EquipmentSlotType.MAINHAND ).isEmpty() &&
+                this.getItemBySlot( EquipmentSlot.MAINHAND ).isEmpty() &&
                 pPlayer.getUUID().equals( this.getOwnerUUID() )){
 
-            pPlayer.level.playSound( pPlayer , this.blockPosition() , SoundEvents.ARMOR_EQUIP_GENERIC , SoundCategory.AMBIENT , 1.0f , 1.0f );
-            this.setItemSlot( EquipmentSlotType.MAINHAND , pPlayer.getItemInHand( pHand ).copy() );
+            pPlayer.level.playSound( pPlayer , this.blockPosition() , SoundEvents.ARMOR_EQUIP_GENERIC , SoundSource.AMBIENT , 1.0f , 1.0f );
+            this.setItemSlot( EquipmentSlot.MAINHAND , pPlayer.getItemInHand( pHand ).copy() );
             pPlayer.getItemInHand( pHand ).shrink( 1 );
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
 
         }else if(pPlayer.getItemInHand( pHand ).isEmpty() && pPlayer.getUUID().equals( this.getOwnerUUID() ) &&
-                !this.getItemBySlot( EquipmentSlotType.MAINHAND ).isEmpty()){
+                !this.getItemBySlot( EquipmentSlot.MAINHAND ).isEmpty()){
 
-            pPlayer.setItemInHand( pHand , this.getItemBySlot( EquipmentSlotType.MAINHAND ).copy() );
-            this.setItemSlot( EquipmentSlotType.MAINHAND , ItemStack.EMPTY );
+            pPlayer.setItemInHand( pHand , this.getItemBySlot( EquipmentSlot.MAINHAND ).copy() );
+            this.setItemSlot( EquipmentSlot.MAINHAND , ItemStack.EMPTY );
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }else if(pPlayer.getItemInHand( pHand ).getItem() == Init.MAGMATIC_OBSIDIAN_ITEM.get()
                 && this.getHealth() < this.getMaxHealth()){
 
-            if(!pPlayer.abilities.instabuild){
+            if(!pPlayer.getAbilities().instabuild){
                 pPlayer.getItemInHand( pHand ).shrink( 1 );
             }
             this.playSound( SoundEvents.IRON_GOLEM_REPAIR , 1.0f , 1.0f );
             this.heal( 8.0f );
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }else if(pPlayer.getItemInHand( pHand ).getItem() == Init.MAGMATIC_PENDANT_ITEM.get()){
-            if(!pPlayer.abilities.instabuild){
+            if(!pPlayer.getAbilities().instabuild){
                 pPlayer.getItemInHand( pHand ).shrink( 1 );
             }
             return executeTransformation( pPlayer );
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     public boolean isOn(){
@@ -179,7 +189,7 @@ public class MagmaticGolemEntity extends TameableEntity{
         }else if(pId == 5){
             this.isOn = true;
         }else if(pId == 7){
-            this.setItemInHand( Hand.MAIN_HAND , ItemStack.EMPTY );
+            this.setItemInHand( InteractionHand.MAIN_HAND , ItemStack.EMPTY );
             super.handleEntityEvent( pId );
         }
         super.handleEntityEvent( pId );
@@ -203,8 +213,8 @@ public class MagmaticGolemEntity extends TameableEntity{
     protected void dropEquipment(){
         if(this.isTame()){
             this.level.addFreshEntity( new ItemEntity( level , this.position().x() , this.position().y() , this.position().z() ,
-                    this.getItemBySlot( EquipmentSlotType.MAINHAND ).copy() ) );
-            this.setItemSlot( EquipmentSlotType.MAINHAND , ItemStack.EMPTY );
+                    this.getItemBySlot( EquipmentSlot.MAINHAND ).copy() ) );
+            this.setItemSlot( EquipmentSlot.MAINHAND , ItemStack.EMPTY );
         }
     }
 
@@ -214,7 +224,7 @@ public class MagmaticGolemEntity extends TameableEntity{
     }
 
     @Override
-    public boolean checkSpawnRules( IWorld pLevel , SpawnReason pSpawnReason ){
+    public boolean checkSpawnRules( LevelAccessor pLevel , MobSpawnType pSpawnReason ){
         BlockState blockBelow = pLevel.getBlockState( this.blockPosition().below() );
         return blockBelow.isValidSpawn( pLevel , this.blockPosition().below() , Init.MAGMATIC_GOLEM_ENTITY.get() )
                 && blockBelow.getBlock() != Blocks.NETHER_WART_BLOCK;
@@ -227,7 +237,7 @@ public class MagmaticGolemEntity extends TameableEntity{
     }
 
     @Override
-    public boolean checkSpawnObstruction( IWorldReader pLevel ){
+    public boolean checkSpawnObstruction( LevelReader pLevel ){
         return pLevel.isUnobstructed( this ) && !pLevel.containsAnyLiquid( this.getBoundingBox() );
     }
 
@@ -245,32 +255,32 @@ public class MagmaticGolemEntity extends TameableEntity{
 
     @Override
     public boolean doHurtTarget( Entity pEntity ){
-        if(this.isTame()) this.getMainHandItem().hurtAndBreak( 1 , this , ( p_213833_1_ ) -> p_213833_1_.broadcastBreakEvent( Hand.MAIN_HAND ));
+        if(this.isTame()) this.getMainHandItem().hurtAndBreak( 1 , this , ( p_213833_1_ ) -> p_213833_1_.broadcastBreakEvent( InteractionHand.MAIN_HAND ));
         boolean fireFlag = new Random().nextInt( 100 ) < 10;
         if(fireFlag) pEntity.setSecondsOnFire( 10 );
-        pEntity.level.playSound( null , pEntity.blockPosition() , SoundEvents.PLAYER_ATTACK_STRONG , SoundCategory.HOSTILE , 1.0F , 1.0F );
+        pEntity.level.playSound( null , pEntity.blockPosition() , SoundEvents.PLAYER_ATTACK_STRONG , SoundSource.HOSTILE , 1.0F , 1.0F );
         return super.doHurtTarget( pEntity );
     }
 
-    public ActionResultType executeTransformation( PlayerEntity pPlayer ){
+    public InteractionResult executeTransformation( Player pPlayer ){
         if(this.getOwnerUUID() != null && this.getOwnerUUID().equals( pPlayer.getUUID() )){
             this.isTransforming = true;
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
             this.playSound( Init.MAGMATIC_GOLEM_TRANSFORMS.get() , 1.0F , 1.0F );
-            this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Explosion.Mode.DESTROY );
+            this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Explosion.BlockInteraction.DESTROY );
             this.drawExplosionSphere();
             EnragedMagmaticGolemEntity enragedGolem = new EnragedMagmaticGolemEntity( Init.ENRAGED_MAGMATIC_GOLEM_ENTITY.get() , level );
             enragedGolem.setPos( this.getX() , this.getY() , this.getZ() );
             level.addFreshEntity( enragedGolem );
             this.dropEquipment();
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return ActionResultType.FAIL;
+        return InteractionResult.FAIL;
     }
 
     private void drawExplosionSphere(){
         if(!level.isClientSide()){
-            Vector3d pos = this.position();
+            Vec3 pos = this.position();
             int radius = 3;
             int r2 = radius * radius;
             for(int X = -radius; X <= radius; X += 1){
@@ -279,7 +289,7 @@ public class MagmaticGolemEntity extends TameableEntity{
                     int y2 = Y * Y;
                     for(int Z = -radius; Z <= radius; Z += 1)
                         if(x2 + y2 + (Z * Z) <= r2)
-                            ((ServerWorld) level).sendParticles( ParticleTypes.EXPLOSION , pos.x() + 0.5F + X , pos.y() + 0.5F + Y , pos.z() + 0.5F + Z , 2 , 0 , 0 , 0 , 1 );
+                            ((ServerLevel) level).sendParticles( ParticleTypes.EXPLOSION , pos.x() + 0.5F + X , pos.y() + 0.5F + Y , pos.z() + 0.5F + Z , 2 , 0 , 0 , 0 , 1 );
                 }
             }
         }

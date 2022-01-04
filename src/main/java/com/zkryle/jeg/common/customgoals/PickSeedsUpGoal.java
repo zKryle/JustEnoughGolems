@@ -1,13 +1,13 @@
 package com.zkryle.jeg.common.customgoals;
 
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.BlockNamedItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.phys.AABB;
 
 public class PickSeedsUpGoal extends Goal{
 
@@ -25,11 +25,11 @@ public class PickSeedsUpGoal extends Goal{
 
         if(delay == 0){
             for(ItemEntity item : entity.level.getEntitiesOfClass( ItemEntity.class ,
-                    new AxisAlignedBB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
+                    new AABB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
                             (int) entity.getX() + 60 , (int) entity.getY() + 2 , (int) entity.getZ() + 60 ) )){
-                if(item.getItem().getItem() instanceof BlockNamedItem){
-                    BlockNamedItem item1 = (BlockNamedItem) item.getItem().getItem();
-                    if(item1.getBlock() instanceof CropsBlock){
+                if(item.getItem().getItem() instanceof ItemNameBlockItem){
+                    ItemNameBlockItem item1 = (ItemNameBlockItem) item.getItem().getItem();
+                    if(item1.getBlock() instanceof CropBlock){
                         this.entity.getNavigation().moveTo( item , this.speedModifier );
                         if(entity.distanceTo( item ) < 1.8F){
                             if(this.entity.getSeedSlot().isEmpty()){
@@ -61,7 +61,7 @@ public class PickSeedsUpGoal extends Goal{
 
         if(this.entity.goalSelector.getRunningGoals().noneMatch( goal -> goal.getGoal() instanceof PlantSeedsGoal  )) {
             for(ItemEntity item : entity.level.getEntitiesOfClass( ItemEntity.class ,
-                    new AxisAlignedBB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
+                    new AABB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
                             (int) entity.getX() + 60 , (int) entity.getY() + 2 , (int) entity.getZ() + 60 ) )){
                 if((this.entity.getSeedSlot().isEmpty() || item.getItem().getItem() == entity.getSeedSlot().getItem()) &&
                         this.entity.getSeedSlot().getCount() < 64){
