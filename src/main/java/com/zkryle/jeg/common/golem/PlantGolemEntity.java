@@ -145,7 +145,7 @@ public class PlantGolemEntity extends PathfinderMob{
     @Override
     public void checkDespawn(){
     }
-    
+
     @Nullable
     public UUID getOwnerUUID() {
     	return ownerUUID;

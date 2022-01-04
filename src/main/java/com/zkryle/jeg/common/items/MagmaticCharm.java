@@ -12,7 +12,7 @@ public class MagmaticCharm extends Item{
 
     @Override
     public InteractionResult useOn( UseOnContext pContext ){
-        pContext.getLevel().explode( pContext.getPlayer(), pContext.getClickedPos().getX(), pContext.getClickedPos().getY(), pContext.getClickedPos().getZ(),
+        if(!pContext.getLevel().isClientSide()) pContext.getLevel().explode( pContext.getPlayer(), pContext.getClickedPos().getX(), pContext.getClickedPos().getY(), pContext.getClickedPos().getZ(),
                 3, true, Explosion.BlockInteraction.DESTROY);
         pContext.getItemInHand().shrink( 1 );
         return InteractionResult.SUCCESS;

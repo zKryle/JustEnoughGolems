@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: net.minecraftforge:forge:1.18.1-39.0.10_mapped_parchment_2021.12.13-nightly-SNAPSHOT-1.18.1_at_9ae54852c5a2028740ecb33ac90316045014c9df">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/fg_cache/net/minecraftforge/forge/1.18.1-39.0.10_mapped_parchment_2021.12.13-nightly-SNAPSHOT-1.18.1/forge-1.18.1-39.0.10_mapped_parchment_2021.12.13-nightly-SNAPSHOT-1.18.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/fg_cache/net/minecraftforge/forge/1.18.1-39.0.10_mapped_parchment_2021.12.13-nightly-SNAPSHOT-1.18.1/forge-1.18.1-39.0.10_mapped_parchment_2021.12.13-nightly-SNAPSHOT-1.18.1-recomp.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
