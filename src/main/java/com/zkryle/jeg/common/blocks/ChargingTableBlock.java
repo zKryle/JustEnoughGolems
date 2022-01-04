@@ -71,12 +71,6 @@ public class ChargingTableBlock extends Block implements EntityBlock{
         return super.use( pState , pLevel , pPos , pPlayer , pHand , pHit );
     }
 
-    @Override
-    public void spawnAfterBreak( BlockState pState , ServerLevel pLevel , BlockPos pPos , ItemStack pStack ){
-        ChargingTableBlockEntity te = (ChargingTableBlockEntity) pLevel.getBlockEntity( pPos );
-        if(te.getCore() != null) pLevel.addFreshEntity( new ItemEntity( pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), te.getCore() ) );
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity( BlockPos pPos , BlockState pState ){
