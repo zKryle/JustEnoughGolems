@@ -134,10 +134,10 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             if(this.rangedAttackAnimationTick <= 10 && this.rangedAttackAnimationTick > 0 && altBodyInclination > 0.0F){
                 altBodyInclination -= 0.15f;
             }
-            if(this.rangedAttackAnimationTick > 10 && altBodyInclination < 0.85F){
-                altBodyInclination += 0.3f;
-            }
             fallingSpeed = 0.0001f;
+        }
+        if(this.rangedAttackAnimationTick > 10 && altBodyInclination < 0.85F){
+            altBodyInclination += 0.3f;
         }
         if(Math.floor(bodyInclination * 10) == 9 && !this.hasCore()){
             this.spawnHitParticles(30);
@@ -341,6 +341,10 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     protected void playStepSound( BlockPos p_180429_1_ , BlockState p_180429_2_ ){
         this.playSound( Init.ENRAGED_MAGMATIC_GOLEM_STEP.get(), 0.4F , 1.0F);
         super.playStepSound( p_180429_1_ , p_180429_2_ );
+    }
+
+    @Override
+    public void checkDespawn(){
     }
 
     // Custom Ranged Attack Goal

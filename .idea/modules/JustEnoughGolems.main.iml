@@ -6,6 +6,7 @@
         <autoDetectTypes>
           <platformType>FORGE</platformType>
           <platformType>MIXIN</platformType>
+          <platformType>MCP</platformType>
         </autoDetectTypes>
       </configuration>
     </facet>
@@ -28,7 +29,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1_at_bf11151b990c5a6cba6a1ba1640dd876fc1f7529" level="project" />
+    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1_at_9ae54852c5a2028740ecb33ac90316045014c9df" level="project" />
     <orderEntry type="library" name="Gradle: net.minecraft:client:extra:1.17.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: ca.weblite:java-objc-bridge:1.0.0" level="project" />
