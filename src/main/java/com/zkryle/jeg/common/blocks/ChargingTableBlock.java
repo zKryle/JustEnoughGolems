@@ -1,15 +1,11 @@
 package com.zkryle.jeg.common.blocks;
 
-import com.zkryle.jeg.client.sounds.ChargingTableTickableSound;
 import com.zkryle.jeg.common.tileentities.ChargingTableTileEntity;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.MinecartTickableSound;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -58,7 +54,7 @@ public class ChargingTableBlock extends Block {
         if(te.hasCore() && pPlayer.getItemInHand( pHand ).isEmpty() && (!(te.getCharge() > 0) || te.getCore().getDamageValue() == 0)) {
             pPlayer.setItemInHand( pHand, te.getCore().copy() );
             te.setCore( ItemStack.EMPTY );
-            te.resetRotationAnim();
+            if(pLevel.isClientSide()) te.resetRotationAnim();
             pLevel.playSound( pPlayer, pPos, Init.EXTRACTING_CORE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F );
             return ActionResultType.SUCCESS;
         } else if(!te.hasCore() && pPlayer.getItemInHand( pHand ).getItem() == Init.NETHER_CORE_ITEM.get()){

@@ -1,10 +1,8 @@
 package com.zkryle.jeg.common.tileentities;
 
-import com.zkryle.jeg.client.sounds.ChargingTableTickableSound;
 import com.zkryle.jeg.common.ICoreOwner;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -21,6 +19,7 @@ public class ChargingTableTileEntity extends TileEntity implements ITickableTile
     protected ItemStack core = ItemStack.EMPTY;
     private short charge = 0;
     private short rotationAnim = 0;
+    private byte soundTick = 50;
     private boolean startedLoop = false;
 
     protected ChargingTableTileEntity( TileEntityType <?> typeIn ){
@@ -72,12 +71,14 @@ public class ChargingTableTileEntity extends TileEntity implements ITickableTile
 
     @Override
     public void tick(){
-        if(rotationAnim < 360){
-            if(this.getCorePercentage() > 10){
-                rotationAnim += getCorePercentage() / 10;
+        if(this.level.isClientSide()){
+            if(rotationAnim < 360){
+                if(this.getCorePercentage() > 10){
+                    rotationAnim += getCorePercentage() / 10;
+                }
+            }else{
+                resetRotationAnim();
             }
-        } else {
-            resetRotationAnim();
         }
 
         if(this.hasCore()){
@@ -87,12 +88,12 @@ public class ChargingTableTileEntity extends TileEntity implements ITickableTile
                 }
                 charge--;
             }
-
-            if(!this.startedLoop){
-                Minecraft.getInstance().getSoundManager().play( new ChargingTableTickableSound( this ) );
-                this.startedLoop = true;
+            if(soundTick == 0){
+                this.playLoop();
+                soundTick = 105;
             }
-        } else this.startedLoop = false;
+            soundTick = (byte) Math.max(0, --soundTick);
+        } else soundTick = 0;
 
     }
 
@@ -103,7 +104,7 @@ public class ChargingTableTileEntity extends TileEntity implements ITickableTile
 
     @Override
     public void setCore( ItemStack core ){
-        if(core.isEmpty()) this.playLoopEnd();
+        if(core.isEmpty()) {this.playLoopEnd();} else soundTick = 0;
         this.core = core;
     }
 
@@ -133,6 +134,10 @@ public class ChargingTableTileEntity extends TileEntity implements ITickableTile
 
     public short getCharge(){
         return this.charge;
+    }
+
+    private void playLoop(){
+        if(!this.level.isClientSide()) this.level.playSound( null, this.getBlockPos(), Init.CHARGING_STATION_LOOP.get(), SoundCategory.BLOCKS, 0.05F, 1.0F );
     }
 
     private void playLoopEnd(){
