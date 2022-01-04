@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.minecraftforge:forge:1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1_at_bf11151b990c5a6cba6a1ba1640dd876fc1f7529">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/fg_cache/net/minecraftforge/forge/1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1/forge-1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1-recomp.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/build/fg_cache/net/minecraftforge/forge/1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1/forge-1.17.1-37.0.112_mapped_parchment_2021.10.31-1.17.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
