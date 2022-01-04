@@ -1,11 +1,11 @@
 package com.zkryle.jeg.core;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
-public class JEGItemGroup extends ItemGroup{
+public class JEGItemGroup extends CreativeModeTab{
     public static final JEGItemGroup JEG_ITEM_GROUP = new JEGItemGroup(
-            ItemGroup.TABS.length, "jeg_itemgroup");
+            CreativeModeTab.TABS.length, "jeg_itemgroup");
 
     public JEGItemGroup( int length , String label ){
         super( length, label );

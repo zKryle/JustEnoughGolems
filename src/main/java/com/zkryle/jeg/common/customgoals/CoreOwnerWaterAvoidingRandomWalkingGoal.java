@@ -1,15 +1,15 @@
 package com.zkryle.jeg.common.customgoals;
 
 import com.zkryle.jeg.common.ICoreOwner;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
-public class CoreOwnerWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal{
+public class CoreOwnerWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomStrollGoal{
 
     ICoreOwner coreOwnerEntity;
 
     public CoreOwnerWaterAvoidingRandomWalkingGoal( ICoreOwner p_i1648_1_ , double p_i1648_2_ ){
-        super( (CreatureEntity) p_i1648_1_ , p_i1648_2_ );
+        super( (PathfinderMob) p_i1648_1_ , p_i1648_2_ );
         this.coreOwnerEntity = p_i1648_1_;
     }
 

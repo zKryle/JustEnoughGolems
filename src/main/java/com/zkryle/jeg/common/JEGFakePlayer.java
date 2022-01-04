@@ -1,35 +1,32 @@
 package com.zkryle.jeg.common;
 
-import static com.zkryle.jeg.JustEnoughGolems.GAME_PROFILE;
+import com.mojang.authlib.GameProfile;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.network.Connection;
+import net.minecraft.network.ConnectionProtocol;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.common.util.FakePlayer;
 
+import javax.annotation.Nonnull;
+import javax.crypto.Cipher;
 import java.lang.ref.WeakReference;
 import java.net.SocketAddress;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.crypto.Cipher;
-
-import com.mojang.authlib.GameProfile;
-
-import net.minecraft.network.IPacket;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.PacketDirection;
-import net.minecraft.network.ProtocolType;
-import net.minecraft.network.play.ServerPlayNetHandler;
-import net.minecraft.network.play.client.*;
-import net.minecraft.network.play.server.SPlayerPositionLookPacket.Flags;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.server.ServerWorld;
-
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.concurrent.GenericFutureListener;
-import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.common.util.FakePlayer;
+import static com.zkryle.jeg.JustEnoughGolems.GAME_PROFILE;
 
 /**
  * The fake player used for golems which interact with things in world
@@ -43,7 +40,7 @@ public class JEGFakePlayer extends FakePlayer {
 
 	private UUID emulatingUUID = null;
 
-	public JEGFakePlayer(ServerWorld world) {
+	public JEGFakePlayer(ServerLevel world) {
 		super(world, new FakeGameProfile());
 		((FakeGameProfile) this.getGameProfile()).fakePlayer = this;
 	}
@@ -55,7 +52,7 @@ public class JEGFakePlayer extends FakePlayer {
 	public UUID getUUID() { return emulatingUUID != null ? emulatingUUID : super.getUUID(); }
 
 	@Override
-	public boolean canBeAffected(EffectInstance pPotioneffect) {
+	public boolean canBeAffected(MobEffectInstance pPotioneffect) {
 		return false;
 	}
 
@@ -121,7 +118,7 @@ public class JEGFakePlayer extends FakePlayer {
 	 *
 	 * @return the return value of fakePlayerExecutor
 	 */
-	public static <R> R withFakePlayer(ServerWorld world, Function<JEGFakePlayer, R> fakePlayerExecutor) {
+	public static <R> R withFakePlayer(ServerLevel world, Function<JEGFakePlayer, R> fakePlayerExecutor) {
 		JEGFakePlayer actual = instance != null ? instance.get() : null;
 		if (actual == null) {
 			actual = new JEGFakePlayer(world);
@@ -138,7 +135,7 @@ public class JEGFakePlayer extends FakePlayer {
 
 	/**
 	 * Same as
-	 * {@link #withFakePlayer(net.minecraft.world.server.ServerWorld, java.util.function.Function)}
+	 * {@link #withFakePlayer(ServerLevel, Function)}
 	 * but sets the fake player's position.
 	 *
 	 * @param world              World to set on the fake player
@@ -150,7 +147,7 @@ public class JEGFakePlayer extends FakePlayer {
 	 *
 	 * @return the return value of fakePlayerConsumer
 	 */
-	public static <R> R withFakePlayer(ServerWorld world, double x, double y, double z,
+	public static <R> R withFakePlayer(ServerLevel world, double x, double y, double z,
 			Function<JEGFakePlayer, R> fakePlayerExecutor) {
 		return withFakePlayer(world, fakePlayer -> {
 			fakePlayer.setPosRaw(x, y, z);
@@ -164,7 +161,7 @@ public class JEGFakePlayer extends FakePlayer {
 	 * 
 	 * @param level
 	 */
-	public static void releaseInstance(IWorld level) {
+	public static void releaseInstance(LevelAccessor level) {
 		// If the fake player has a reference to the world getting unloaded, destroy the
 		// player so that the world can still be unloaded
 		JEGFakePlayer act = instance != null ? instance.get() : null;
@@ -179,10 +176,10 @@ public class JEGFakePlayer extends FakePlayer {
 	 * @author matyrobbrt
 	 *
 	 */
-	private static final class FakeNetworkHandler extends ServerPlayNetHandler {
+	private static final class FakeNetworkHandler extends ServerGamePacketListenerImpl {
 
 		public FakeNetworkHandler(MinecraftServer server, JEGFakePlayer player) {
-			super(server, new FakeNetworkManager(PacketDirection.CLIENTBOUND), player);
+			super(server, new FakeNetworkManager(PacketFlow.CLIENTBOUND), player);
 		}
 
 		@Override
@@ -194,87 +191,87 @@ public class JEGFakePlayer extends FakePlayer {
 		}
 
 		@Override
-		public void disconnect(ITextComponent textComponent) {
+		public void disconnect(Component textComponent) {
 		}
 
 		@Override
-		public void handlePlayerInput(CInputPacket packet) {
+		public void handlePlayerInput(ServerboundPlayerInputPacket packet) {
 		}
 
 		@Override
-		public void handleMoveVehicle(CMoveVehiclePacket packet) {
+		public void handleMoveVehicle(ServerboundMoveVehiclePacket packet) {
 		}
 
 		@Override
-		public void handleAcceptTeleportPacket(CConfirmTeleportPacket packet) {
+		public void handleAcceptTeleportPacket(ServerboundAcceptTeleportationPacket packet) {
 		}
 
 		@Override
-		public void handleRecipeBookSeenRecipePacket(CMarkRecipeSeenPacket packet) {
+		public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket packet) {
 		}
 
 		@Override
-		public void handleRecipeBookChangeSettingsPacket(CUpdateRecipeBookStatusPacket packet) {
+		public void handleRecipeBookChangeSettingsPacket(ServerboundRecipeBookChangeSettingsPacket packet) {
 		}
 
 		@Override
-		public void handleSeenAdvancements(CSeenAdvancementsPacket packet) {
+		public void handleSeenAdvancements(ServerboundSeenAdvancementsPacket packet) {
 		}
 
 		@Override
-		public void handleCustomCommandSuggestions(CTabCompletePacket packet) {
+		public void handleCustomCommandSuggestions(ServerboundCommandSuggestionPacket packet) {
 		}
 
 		@Override
-		public void handleSetCommandBlock(CUpdateCommandBlockPacket packet) {
+		public void handleSetCommandBlock(ServerboundSetCommandBlockPacket packet) {
 		}
 
 		@Override
-		public void handleSetCommandMinecart(CUpdateMinecartCommandBlockPacket packet) {
+		public void handleSetCommandMinecart(ServerboundSetCommandMinecartPacket packet) {
 		}
 
 		@Override
-		public void handlePickItem(CPickItemPacket packet) {
+		public void handlePickItem(ServerboundPickItemPacket packet) {
 		}
 
 		@Override
-		public void handleRenameItem(CRenameItemPacket packet) {
+		public void handleRenameItem(ServerboundRenameItemPacket packet) {
 		}
 
 		@Override
-		public void handleSetBeaconPacket(CUpdateBeaconPacket packet) {
+		public void handleSetBeaconPacket(ServerboundSetBeaconPacket packet) {
 		}
 
 		@Override
-		public void handleSetStructureBlock(CUpdateStructureBlockPacket packet) {
+		public void handleSetStructureBlock(ServerboundSetStructureBlockPacket packet) {
 		}
 
 		@Override
-		public void handleSetJigsawBlock(CUpdateJigsawBlockPacket packet) {
+		public void handleSetJigsawBlock(ServerboundSetJigsawBlockPacket packet) {
 		}
 
 		@Override
-		public void handleJigsawGenerate(CJigsawBlockGeneratePacket packet) {
+		public void handleJigsawGenerate(ServerboundJigsawGeneratePacket packet) {
 		}
 
 		@Override
-		public void handleSelectTrade(CSelectTradePacket packet) {
+		public void handleSelectTrade(ServerboundSelectTradePacket packet) {
 		}
 
 		@Override
-		public void handleEditBook(CEditBookPacket packet) {
+		public void handleEditBook(ServerboundEditBookPacket packet) {
 		}
 
 		@Override
-		public void handleEntityTagQuery(CQueryEntityNBTPacket packet) {
+		public void handleEntityTagQuery(ServerboundEntityTagQuery packet) {
 		}
 
 		@Override
-		public void handleBlockEntityTagQuery(CQueryTileEntityNBTPacket packet) {
+		public void handleBlockEntityTagQuery(ServerboundBlockEntityTagQuery packet) {
 		}
 
 		@Override
-		public void handleMovePlayer(CPlayerPacket packet) {
+		public void handleMovePlayer(ServerboundMovePlayerPacket packet) {
 		}
 
 		@Override
@@ -282,125 +279,121 @@ public class JEGFakePlayer extends FakePlayer {
 		}
 
 		@Override
-		public void teleport(double x, double y, double z, float yaw, float pitch, Set<Flags> relativeSet) {
+		public void teleport(double x, double y, double z, float yaw, float pitch, Set<RelativeArgument> relativeSet) {
 		}
 
 		@Override
-		public void handlePlayerAction(CPlayerDiggingPacket packet) {
+		public void handlePlayerAction(ServerboundPlayerActionPacket packet) {
 		}
 
 		@Override
-		public void handleUseItemOn(CPlayerTryUseItemOnBlockPacket packet) {
+		public void handleUseItemOn(ServerboundUseItemOnPacket packet) {
 		}
 
 		@Override
-		public void handleUseItem(CPlayerTryUseItemPacket packet) {
+		public void handleUseItem(ServerboundUseItemPacket packet) {
 		}
 
 		@Override
-		public void handleTeleportToEntityPacket(CSpectatePacket packet) {
+		public void handleTeleportToEntityPacket(ServerboundTeleportToEntityPacket packet) {
 		}
 
 		@Override
-		public void handleResourcePackResponse(CResourcePackStatusPacket packet) {
+		public void handleResourcePackResponse(ServerboundResourcePackPacket packet) {
 		}
 
 		@Override
-		public void handlePaddleBoat(CSteerBoatPacket packet) {
+		public void handlePaddleBoat(ServerboundPaddleBoatPacket packet) {
 		}
 
 		@Override
-		public void onDisconnect(ITextComponent reason) {
+		public void onDisconnect(Component reason) {
 		}
 
 		@Override
-		public void send(IPacket<?> packet) {
+		public void send(Packet<?> packet) {
 		}
 
 		@Override
-		public void send(IPacket<?> pPacket,
+		public void send(Packet<?> pPacket,
 				GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> pFutureListeners) {
 		}
 
 		@Override
-		public void handleSetCarriedItem(CHeldItemChangePacket packet) {
+		public void handleSetCarriedItem(ServerboundSetCarriedItemPacket packet) {
 		}
 
 		@Override
-		public void handleChat(CChatMessagePacket packet) {
+		public void handleChat(ServerboundChatPacket packet) {
 		}
 
 		@Override
-		public void handleAnimate(CAnimateHandPacket packet) {
+		public void handleAnimate(ServerboundSwingPacket packet) {
 		}
 
 		@Override
-		public void handlePlayerCommand(CEntityActionPacket packet) {
+		public void handlePlayerCommand(ServerboundPlayerCommandPacket packet) {
 		}
 
 		@Override
-		public void handleInteract(CUseEntityPacket packet) {
+		public void handleInteract(ServerboundInteractPacket packet) {
 		}
 
 		@Override
-		public void handleClientCommand(CClientStatusPacket packet) {
+		public void handleClientCommand(ServerboundClientCommandPacket packet) {
 		}
 
 		@Override
-		public void handleContainerClose(CCloseWindowPacket packet) {
+		public void handleContainerClose(ServerboundContainerClosePacket packet) {
 		}
 
 		@Override
-		public void handleContainerClick(CClickWindowPacket packet) {
+		public void handleContainerClick(ServerboundContainerClickPacket packet) {
 		}
 
 		@Override
-		public void handlePlaceRecipe(CPlaceRecipePacket packet) {
+		public void handlePlaceRecipe(ServerboundPlaceRecipePacket packet) {
 		}
 
 		@Override
-		public void handleContainerButtonClick(CEnchantItemPacket packet) {
+		public void handleContainerButtonClick(ServerboundContainerButtonClickPacket packet) {
 		}
 
 		@Override
-		public void handleSetCreativeModeSlot(CCreativeInventoryActionPacket packet) {
+		public void handleSetCreativeModeSlot(ServerboundSetCreativeModeSlotPacket packet) {
 		}
 
 		@Override
-		public void handleContainerAck(CConfirmTransactionPacket packet) {
+		public void handleSignUpdate(ServerboundSignUpdatePacket packet) {
 		}
 
 		@Override
-		public void handleSignUpdate(CUpdateSignPacket packet) {
+		public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
 		}
 
 		@Override
-		public void handleKeepAlive(CKeepAlivePacket packet) {
+		public void handlePlayerAbilities(ServerboundPlayerAbilitiesPacket packet) {
 		}
 
 		@Override
-		public void handlePlayerAbilities(CPlayerAbilitiesPacket packet) {
+		public void handleClientInformation(ServerboundClientInformationPacket packet) {
 		}
 
 		@Override
-		public void handleClientInformation(CClientSettingsPacket packet) {
+		public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
 		}
 
 		@Override
-		public void handleCustomPayload(CCustomPayloadPacket packet) {
+		public void handleChangeDifficulty(ServerboundChangeDifficultyPacket packet) {
 		}
 
 		@Override
-		public void handleChangeDifficulty(CSetDifficultyPacket packet) {
+		public void handleLockDifficulty(ServerboundLockDifficultyPacket packet) {
 		}
 
-		@Override
-		public void handleLockDifficulty(CLockDifficultyPacket packet) {
-		}
+		private final static class FakeNetworkManager extends Connection {
 
-		private final static class FakeNetworkManager extends NetworkManager {
-
-			public FakeNetworkManager(PacketDirection packetDirection) {
+			public FakeNetworkManager(PacketFlow packetDirection) {
 				super(packetDirection);
 			}
 
@@ -409,7 +402,7 @@ public class JEGFakePlayer extends FakePlayer {
 			}
 
 			@Override
-			public void setProtocol(ProtocolType newState) {
+			public void setProtocol(ConnectionProtocol newState) {
 			}
 
 			@Override
@@ -421,15 +414,15 @@ public class JEGFakePlayer extends FakePlayer {
 			}
 
 			@Override
-			protected void channelRead0(ChannelHandlerContext channelHandlerContext, IPacket<?> packet) {
+			protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet) {
 			}
 
 			@Override
-			public void send(IPacket<?> packet) {
+			public void send(Packet<?> packet) {
 			}
 
 			@Override
-			public void send(IPacket<?> pPacket,
+			public void send(Packet<?> pPacket,
 					GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> p_201058_2_) {
 			}
 
@@ -445,7 +438,7 @@ public class JEGFakePlayer extends FakePlayer {
 			public SocketAddress getRemoteAddress() { return null; }
 
 			@Override
-			public void disconnect(ITextComponent message) {
+			public void disconnect(Component message) {
 			}
 
 			@Override
@@ -466,10 +459,6 @@ public class JEGFakePlayer extends FakePlayer {
 			}
 
 			@Override
-			public void setupCompression(int threshold) {
-			}
-
-			@Override
 			public void handleDisconnection() {
 			}
 
@@ -477,6 +466,8 @@ public class JEGFakePlayer extends FakePlayer {
 			public io.netty.channel.Channel channel() {
 				return null;
 			}
+
+
 		}
 
 	}

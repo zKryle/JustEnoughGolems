@@ -1,16 +1,15 @@
 package com.zkryle.jeg.common.customgoals;
 
 import com.zkryle.jeg.common.ICoreOwner;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 
-public class CoreOwnerLookAtGoal extends LookAtGoal{
+public class CoreOwnerLookAtGoal extends LookAtPlayerGoal{
     private final ICoreOwner coreOwnerEntity;
 
     public CoreOwnerLookAtGoal( ICoreOwner p_i1631_1_ , Class <? extends LivingEntity> p_i1631_2_ , float p_i1631_3_ ){
-        super( (MobEntity) p_i1631_1_ , p_i1631_2_ , p_i1631_3_ );
+        super( (Mob) p_i1631_1_ , p_i1631_2_ , p_i1631_3_ );
         this.coreOwnerEntity = p_i1631_1_;
     }
 

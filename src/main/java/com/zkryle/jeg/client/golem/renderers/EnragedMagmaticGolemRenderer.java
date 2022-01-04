@@ -1,14 +1,14 @@
 package com.zkryle.jeg.client.golem.renderers;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.client.golem.models.EnragedMagmaticGolemModel;
+import com.zkryle.jeg.client.golem.models.PlantGolemEntityModel;
 import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
 
 public class EnragedMagmaticGolemRenderer extends MobRenderer <EnragedMagmaticGolemEntity, EnragedMagmaticGolemModel<EnragedMagmaticGolemEntity>>{
 
@@ -23,12 +23,12 @@ public class EnragedMagmaticGolemRenderer extends MobRenderer <EnragedMagmaticGo
     public static final ResourceLocation TEXTURE_100_A = new ResourceLocation( JustEnoughGolems.MOD_ID , "textures/entity/enragedmagmaticgolem/enragedmagmaticgolem_100_a.png" );
     public static final ResourceLocation TEXTURE_100_B = new ResourceLocation( JustEnoughGolems.MOD_ID , "textures/entity/enragedmagmaticgolem/enragedmagmaticgolem_100_b.png" );
 
-    public EnragedMagmaticGolemRenderer( EntityRendererManager manager ){
-        super( manager , new EnragedMagmaticGolemModel <>() , 0.9f );
+    public EnragedMagmaticGolemRenderer( EntityRendererProvider.Context context ){
+        super( context , new EnragedMagmaticGolemModel<>(context.bakeLayer( EnragedMagmaticGolemModel.LAYER_LOCATION  )) , 0.9f );
     }
 
     @Override
-    protected void setupRotations( EnragedMagmaticGolemEntity pEntityLiving, MatrixStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+    protected void setupRotations( EnragedMagmaticGolemEntity pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         if (!((double)pEntityLiving.animationSpeed < 0.01D)) {
             float f1 = pEntityLiving.animationPosition - pEntityLiving.animationSpeed * (1.0F - pPartialTicks) + 6.0F;
