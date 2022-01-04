@@ -260,7 +260,7 @@ public class MagmaticGolemEntity extends TameableEntity{
             this.isTransforming = true;
             this.remove();
             this.playSound( Init.MAGMATIC_GOLEM_TRANSFORMS.get() , 1.0F , 1.0F );
-            this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Explosion.Mode.DESTROY );
+            if(!level.isClientSide())this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Explosion.Mode.DESTROY );
             this.drawExplosionSphere();
             EnragedMagmaticGolemEntity enragedGolem = new EnragedMagmaticGolemEntity( Init.ENRAGED_MAGMATIC_GOLEM_ENTITY.get() , level );
             enragedGolem.setPos( this.getX() , this.getY() , this.getZ() );
@@ -286,5 +286,10 @@ public class MagmaticGolemEntity extends TameableEntity{
                 }
             }
         }
+    }
+
+    @Override
+    public void checkDespawn(){
+        if(!this.isTame()) super.checkDespawn();
     }
 }
