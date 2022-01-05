@@ -27,7 +27,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -78,7 +80,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setAlertOthers());
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal <>(this, Mob.class, 5, false, false,
-                ( p_234199_0_) -> p_234199_0_ instanceof Enemy ));
+                ( p_234199_0_) -> p_234199_0_ instanceof Enemy && !(p_234199_0_ instanceof ZombifiedPiglin) ));
 
     }
 
@@ -111,7 +113,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
 
     @Override
     public void tick(){
-        if(this.getCorePercentage() < 2 && this.isOn()){
+        if(this.getCorePercentage() <= 2 && this.isOn()){
             this.setOn( false );
         } else if(this.getCorePercentage() > 2 && !this.isOn()){
             this.setOn( true );
@@ -174,6 +176,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
 
     @Override
     public InteractionResult mobInteract( Player pPlayer , InteractionHand pHand ){
+        System.out.println(this.getCorePercentage() );
         if(pPlayer.getItemInHand( pHand ).getItem() == Init.NETHER_CORE_ITEM.get() && !this.hasCore() && bodyInclination >= 1.055f){
             this.coreDelay = 80;
             this.setCore( pPlayer.getItemInHand( pHand ).copy() );
@@ -182,7 +185,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             if(!pPlayer.isShiftKeyDown()) this.setTamed( pPlayer );
             this.level.playSound( pPlayer, this.blockPosition().above(), Init.INSERTING_CORE_GOLEM.get(), SoundSource.NEUTRAL, 0.5F, 1.0F );
             return InteractionResult.SUCCESS;
-        } else if (pPlayer.getItemInHand( pHand ).isEmpty() && this.hasCore() && bodyInclination <= 0.0f
+        } else if (pPlayer.getItemInHand( pHand ).isEmpty() && this.hasCore() && (bodyInclination <= 0.0f || this.getCorePercentage() <= 2)
                 && ( this.getOwnerUUID() == null || this.getOwnerUUID().equals( pPlayer.getUUID() ) )) {
             pPlayer.setItemInHand( pHand, this.core.copy() );
             this.setCore( ItemStack.EMPTY );

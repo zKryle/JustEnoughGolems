@@ -4,6 +4,7 @@ import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import com.zkryle.jeg.common.tileentities.ChargingTableBlockEntity;
+import com.zkryle.jeg.core.Config;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,6 +37,7 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
+import static com.zkryle.jeg.core.Config.SHOULD_MAGMATIC_GOLEM_SPAWN;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @Mod.EventBusSubscriber
@@ -119,7 +121,7 @@ public class StaticEventSubscriber{
     @SubscribeEvent
     public static void addEnragedMagmaticGolemAsTarget( EntityJoinWorldEvent event ){
         Entity entity = event.getEntity();
-        if(entity instanceof Zombie){
+        if(entity instanceof Zombie && !(entity instanceof ZombifiedPiglin)){
             ((Zombie) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (Zombie) entity , EnragedMagmaticGolemEntity.class , true ) );
         }else if(entity instanceof AbstractSkeleton){
             if(!(entity instanceof WitherSkeleton)){
@@ -152,9 +154,11 @@ public class StaticEventSubscriber{
     public static void onBiomeLoad(final BiomeLoadingEvent event) {
         if (event.getName() == null)
             return;
-        if (event.getCategory().equals( Biome.BiomeCategory.NETHER)) {
-            event.getSpawns().addSpawn(MobCategory.MONSTER,
-                    new MobSpawnSettings.SpawnerData(Init.MAGMATIC_GOLEM_ENTITY.get(), 5, 1, 1));
+        if(SHOULD_MAGMATIC_GOLEM_SPAWN.get()){
+            if(event.getCategory().equals( Biome.BiomeCategory.NETHER )){
+                event.getSpawns().addSpawn( MobCategory.MONSTER ,
+                        new MobSpawnSettings.SpawnerData( Init.MAGMATIC_GOLEM_ENTITY.get() , Config.MAGMATIC_GOLEM_ENTITY_WEIGHT.get() , 1 , 1 ) );
+            }
         }
     }
 

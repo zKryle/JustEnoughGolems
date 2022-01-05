@@ -2,10 +2,13 @@ package com.zkryle.jeg;
 
 import com.mojang.authlib.GameProfile;
 import com.zkryle.jeg.common.events.EventSubscriber;
+import com.zkryle.jeg.core.Config;
 import com.zkryle.jeg.core.Init;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +27,9 @@ public class JustEnoughGolems
 
     public JustEnoughGolems() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModLoadingContext.get().registerConfig( ModConfig.Type.COMMON, Config.SPEC, "JustEnoughGolems-common.toml" );
+
         Init.SOUNDS.register( bus );
         Init.BLOCKS.register( bus );
         Init.ITEMS.register( bus );
