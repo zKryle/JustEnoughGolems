@@ -131,13 +131,13 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             if(bodyInclination > 0.0f ){
                 bodyInclination -= 0.05f;
             }
-            if(this.rangedAttackAnimationTick <= 10 && this.rangedAttackAnimationTick > 0 && altBodyInclination > 0.0F){
-                altBodyInclination -= 0.15f;
+            if(this.rangedAttackAnimationTick > 10 && altBodyInclination < 0.85F){
+                altBodyInclination += 0.3f;
             }
             fallingSpeed = 0.0001f;
         }
-        if(this.rangedAttackAnimationTick > 10 && altBodyInclination < 0.85F){
-            altBodyInclination += 0.3f;
+        if(this.rangedAttackAnimationTick <= 10 && altBodyInclination > 0.0F){
+            altBodyInclination -= 0.15f;
         }
         if(Math.floor(bodyInclination * 10) == 9 && !this.hasCore()){
             this.spawnHitParticles(30);
