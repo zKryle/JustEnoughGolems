@@ -1,1 +1,1 @@
-Added Mossy Observer: it can detect when a crop is fully grown, and send a redstone signal of the same duration as the classic observer one!
+Magma Release: Added 2 new golems and 6 more items/blocks! More info in the release list!
