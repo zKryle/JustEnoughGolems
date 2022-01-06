@@ -1,6 +1,6 @@
 {
 "block.justenoughgolems.precious_mossy_cobblestone":"Piatră Prețioasă Cu Mușchi",
   "block.justenoughgolems.mossy_observer": "Observator Cu Mușchi Pe El",
-"entity.plant_golem_hit.sub": "Golem Din Plante Lovit",
-"entity.plant_golem_death.sub": "Golem Din Plante Mort"
+"entity.plant_golem_hurts.sub": "Golem Din Plante Lovit",
+"entity.plant_golem_dies.sub": "Golem Din Plante Mort"
 }

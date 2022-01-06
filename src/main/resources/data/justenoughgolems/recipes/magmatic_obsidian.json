@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "justenoughgolems:magmatic_obsidian_shard"
+    }
+  },
+  "result": {
+    "item": "justenoughgolems:magmatic_obsidian",
+    "count": 2
+  }
+}

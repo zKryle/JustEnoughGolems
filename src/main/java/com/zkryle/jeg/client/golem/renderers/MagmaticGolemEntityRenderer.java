@@ -13,13 +13,21 @@ import net.minecraft.util.ResourceLocation;
 public class MagmaticGolemEntityRenderer extends MobRenderer <MagmaticGolemEntity, MagmaticGolemEntityModel <MagmaticGolemEntity>>{
 
     public static final ResourceLocation TEXTURE = new ResourceLocation( JustEnoughGolems.MOD_ID , "textures/entity/magmaticgolem/magmaticgolem.png" );
+    public static final ResourceLocation TEXTURE_LIT = new ResourceLocation( JustEnoughGolems.MOD_ID , "textures/entity/magmaticgolem/magmaticgolem_active.png" );
 
     public MagmaticGolemEntityRenderer( EntityRendererManager manager ){
         super( manager , new MagmaticGolemEntityModel <>() , 0.4f );
+        this.addLayer( new HeldItemLayer <>( this ) );
     }
 
     @Override
     public ResourceLocation getTextureLocation( MagmaticGolemEntity pEntity ){
-        return TEXTURE;
+        if(pEntity.isTame() && pEntity.isOn()){
+            return TEXTURE_LIT;
+        } else if (!pEntity.isTame()) {
+            return TEXTURE_LIT;
+        } else {
+            return TEXTURE;
+        }
     }
 }

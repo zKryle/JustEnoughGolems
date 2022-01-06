@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "justenoughgolems:items/magmatic_obsidian_shard"
+  }
+}

@@ -31,7 +31,7 @@ public class PickSeedsUpGoal extends Goal{
                     BlockNamedItem item1 = (BlockNamedItem) item.getItem().getItem();
                     if(item1.getBlock() instanceof CropsBlock){
                         this.entity.getNavigation().moveTo( item , this.speedModifier );
-                        if(entity.distanceTo( item ) < 1.7F){
+                        if(entity.distanceTo( item ) < 1.8F){
                             if(this.entity.getSeedSlot().isEmpty()){
                                 this.entity.setSeedSlot( item.getItem().copy() );
                                 item.kill();
@@ -58,21 +58,23 @@ public class PickSeedsUpGoal extends Goal{
 
     @Override
     public boolean canUse(){
-        for(ItemEntity item : entity.level.getEntitiesOfClass( ItemEntity.class ,
-                new AxisAlignedBB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
-                        (int) entity.getX() + 60 , (int) entity.getY() + 2 , (int) entity.getZ() + 60 ) )){
-            if((this.entity.getSeedSlot().isEmpty() || item.getItem().getItem() == entity.getSeedSlot().getItem()) &&
-                    this.entity.getSeedSlot().getCount() < 64){
-                start();
-                return true;
+
+        if(this.entity.goalSelector.getRunningGoals().noneMatch( goal -> goal.getGoal() instanceof PlantSeedsGoal  )) {
+            for(ItemEntity item : entity.level.getEntitiesOfClass( ItemEntity.class ,
+                    new AxisAlignedBB( (int) entity.getX() - 60 , (int) entity.getY() - 2 , (int) entity.getZ() - 60 ,
+                            (int) entity.getX() + 60 , (int) entity.getY() + 2 , (int) entity.getZ() + 60 ) )){
+                if((this.entity.getSeedSlot().isEmpty() || item.getItem().getItem() == entity.getSeedSlot().getItem()) &&
+                        this.entity.getSeedSlot().getCount() < 64){
+                    return true;
+                }
             }
         }
         return false;
     }
 
     @Override
-    public void stop(){
-        this.entity.getNavigation().stop();
+    public boolean canContinueToUse(){
+        return !this.entity.getNavigation().isDone() && this.entity.goalSelector.getRunningGoals().noneMatch( goal -> goal.getGoal() instanceof PlantSeedsGoal  );
     }
 
     @Override

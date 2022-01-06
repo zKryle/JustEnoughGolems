@@ -34,6 +34,7 @@ public class JustEnoughGolems
         Init.BLOCKS.register( bus );
         Init.ITEMS.register( bus );
         Init.ENTITIES.register( bus );
+        Init.TILE_ENTITY_TYPES.register( bus );
 
         LOGGER.info("Fake player readout: UUID = {}, name = {}", GAME_PROFILE.getId(), GAME_PROFILE.getName());
         
