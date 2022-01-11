@@ -176,7 +176,6 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
 
     @Override
     public InteractionResult mobInteract( Player pPlayer , InteractionHand pHand ){
-        System.out.println(this.getCorePercentage() );
         if(pPlayer.getItemInHand( pHand ).getItem() == Init.NETHER_CORE_ITEM.get() && !this.hasCore() && bodyInclination >= 1.055f){
             this.coreDelay = 80;
             this.setCore( pPlayer.getItemInHand( pHand ).copy() );
