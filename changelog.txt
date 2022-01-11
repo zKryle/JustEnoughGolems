@@ -1,1 +1,1 @@
-Magma Release 2.1: Fixed lots of bugs, including Magmatic golem overspawning, also added a config to determine how much and if it should spawn!
+Magma Release 2.2: Default magmatic golem spawnrate made a little higher, was too low!
