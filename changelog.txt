@@ -1,1 +1,1 @@
-Magma Release: Added 2 new golems and 6 more items/blocks! More info in the release list!
+Magma Release 2.1: Fixed lots of bugs, including Magmatic golem overspawning, also added a config to determine how much and if it should spawn!
