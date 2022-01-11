@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -71,7 +72,7 @@ public class EnragedMagmaticGolemEntity extends TameableEntity implements ICoreO
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setAlertOthers());
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal <>(this, MobEntity.class, 5, false, false,
-                ( p_234199_0_) -> p_234199_0_ instanceof IMob ));
+                ( p_234199_0_) -> p_234199_0_ instanceof IMob && !(p_234199_0_ instanceof ZombifiedPiglinEntity) ));
 
     }
 
@@ -104,7 +105,7 @@ public class EnragedMagmaticGolemEntity extends TameableEntity implements ICoreO
 
     @Override
     public void tick(){
-        if(this.getCorePercentage() < 2 && this.isOn()){
+        if(this.getCorePercentage() <= 2 && this.isOn()){
             this.setOn( false );
         } else if(this.getCorePercentage() > 2 && !this.isOn()){
             this.setOn( true );
@@ -175,7 +176,7 @@ public class EnragedMagmaticGolemEntity extends TameableEntity implements ICoreO
             if(!pPlayer.isShiftKeyDown()) this.setTamed( pPlayer );
             this.level.playSound( pPlayer, this.blockPosition().above(), Init.INSERTING_CORE_GOLEM.get(), SoundCategory.NEUTRAL, 0.5F, 1.0F );
             return ActionResultType.SUCCESS;
-        } else if (pPlayer.getItemInHand( pHand ).isEmpty() && this.hasCore() && bodyInclination <= 0.0f
+        } else if (pPlayer.getItemInHand( pHand ).isEmpty() && this.hasCore() && (bodyInclination <= 0.0f || this.getCorePercentage() <= 2)
                 && ( this.getOwnerUUID() == null || this.getOwnerUUID().equals( pPlayer.getUUID() ) )) {
             pPlayer.setItemInHand( pHand, this.core.copy() );
             this.setCore( ItemStack.EMPTY );

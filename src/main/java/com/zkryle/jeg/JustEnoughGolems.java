@@ -3,6 +3,9 @@ package com.zkryle.jeg;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import com.zkryle.jeg.core.Config;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +33,9 @@ public class JustEnoughGolems
 
     public JustEnoughGolems() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModLoadingContext.get().registerConfig( ModConfig.Type.COMMON, Config.SPEC, "JustEnoughGolems-common.toml" );
+
         Init.SOUNDS.register( bus );
         Init.BLOCKS.register( bus );
         Init.ITEMS.register( bus );

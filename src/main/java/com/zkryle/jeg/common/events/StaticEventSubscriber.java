@@ -5,6 +5,7 @@ import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import com.zkryle.jeg.common.tileentities.ChargingTableTileEntity;
+import com.zkryle.jeg.core.Config;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -24,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraftforge.common.world.MobSpawnInfoBuilder;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -120,19 +120,17 @@ public class StaticEventSubscriber{
     @SubscribeEvent
     public static void addEnragedMagmaticGolemAsTarget( EntityJoinWorldEvent event ){
         Entity entity = event.getEntity();
-        if(entity instanceof ZombieEntity){
+        if(entity instanceof ZombieEntity && !(entity instanceof ZombifiedPiglinEntity)){
             ((ZombieEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (ZombieEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
-        }else if(entity instanceof AbstractSkeletonEntity){
-            if(!(entity instanceof WitherSkeletonEntity)){
-                ((AbstractSkeletonEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (AbstractSkeletonEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
-            }
+        }else if(entity instanceof AbstractSkeletonEntity && !(entity instanceof WitherSkeletonEntity)){
+            ((AbstractSkeletonEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (AbstractSkeletonEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
         }else if(entity instanceof CreeperEntity){
             ((CreeperEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (CreeperEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
         }else if(entity instanceof SpiderEntity){
             ((SpiderEntity) entity).targetSelector.addGoal( 3 , new SpiderEntity.TargetGoal <>( (SpiderEntity) entity , EnragedMagmaticGolemEntity.class ) );
         }else if(entity instanceof AbstractRaiderEntity){
             ((AbstractRaiderEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (AbstractRaiderEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
-        } else if(entity instanceof SlimeEntity){
+        }else if(entity instanceof SlimeEntity){
             ((SlimeEntity) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (SlimeEntity) entity , EnragedMagmaticGolemEntity.class , true ) );
         }
     }
@@ -142,28 +140,31 @@ public class StaticEventSubscriber{
         if(event.getWorld().getBlockState( event.getPos() ).getBlock() == Blocks.CRYING_OBSIDIAN &&
                 event.getPlayer().getItemInHand( event.getHand() ).getItem() == Items.LAVA_BUCKET &&
                 !event.getPlayer().isShiftKeyDown()){
-            event.getWorld().setBlockAndUpdate( event.getPos(), Init.MAGMATIC_OBSIDIAN.get().defaultBlockState() );
-            event.getPlayer().setItemInHand( event.getHand(), new ItemStack( Items.BUCKET ) );
+            event.getWorld().setBlockAndUpdate( event.getPos() , Init.MAGMATIC_OBSIDIAN.get().defaultBlockState() );
+            event.getPlayer().setItemInHand( event.getHand() , new ItemStack( Items.BUCKET ) );
             event.getPlayer().swing( event.getHand() );
-            event.getWorld().playSound( event.getPlayer(), event.getPos(), SoundEvents.BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F );
+            event.getWorld().playSound( event.getPlayer() , event.getPos() , SoundEvents.BUCKET_EMPTY_LAVA , SoundCategory.BLOCKS , 1.0F , 1.0F );
         }
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onBiomeLoad(final BiomeLoadingEvent event) {
-        if (event.getName() == null)
+    public static void onBiomeLoad( final BiomeLoadingEvent event ){
+        if(event.getName() == null)
             return;
-        if (event.getCategory().equals( Biome.Category.NETHER)) {
-            event.getSpawns().addSpawn(EntityClassification.MONSTER,
-                    new MobSpawnInfo.Spawners(Init.MAGMATIC_GOLEM_ENTITY.get(), 5, 1, 1));
+        if(Config.SHOULD_MAGMATIC_GOLEM_SPAWN.get()){
+            if(event.getCategory().equals( Biome.Category.NETHER )){
+                event.getSpawns().addSpawn( EntityClassification.MONSTER ,
+                        new MobSpawnInfo.Spawners( Init.MAGMATIC_GOLEM_ENTITY.get() , Config.MAGMATIC_GOLEM_ENTITY_WEIGHT.get() , 1 , 1 ) );
+            }
         }
     }
 
     @SubscribeEvent
-    public static void blockBroken(final BlockEvent.BreakEvent event){
+    public static void blockBroken( final BlockEvent.BreakEvent event ){
         if(event.getWorld().getBlockEntity( event.getPos() ) instanceof ChargingTableTileEntity){
             ChargingTableTileEntity te = (ChargingTableTileEntity) event.getWorld().getBlockEntity( event.getPos() );
-            if(te.getCore() != null) event.getWorld().addFreshEntity( new ItemEntity( (World) event.getWorld() , event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), te.getCore() ) );
+            if(te.getCore() != null)
+                event.getWorld().addFreshEntity( new ItemEntity( (World) event.getWorld() , event.getPos().getX() , event.getPos().getY() , event.getPos().getZ() , te.getCore() ) );
         }
     }
 }

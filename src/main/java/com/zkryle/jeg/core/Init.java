@@ -93,10 +93,10 @@ public class Init{
             () -> EntityType.Builder.of( PlantGolemEntity::new , EntityClassification.CREATURE ).sized( 0.55f , 1.2f)
                     .build( new ResourceLocation( JustEnoughGolems.MOD_ID , "plant_golem" ).toString() ) );
     public static RegistryObject <EntityType <MagmaticGolemEntity>> MAGMATIC_GOLEM_ENTITY = ENTITIES.register( "magmatic_golem" ,
-            () -> EntityType.Builder.of( MagmaticGolemEntity::new , EntityClassification.CREATURE ).sized( 0.55f , 1.2f)
+            () -> EntityType.Builder.of( MagmaticGolemEntity::new , EntityClassification.MONSTER ).sized( 0.55f , 1.2f)
                     .build( new ResourceLocation( JustEnoughGolems.MOD_ID , "magmatic_golem" ).toString() ) );
     public static RegistryObject <EntityType <EnragedMagmaticGolemEntity>> ENRAGED_MAGMATIC_GOLEM_ENTITY = ENTITIES.register( "enraged_magmatic_golem" ,
-            () -> EntityType.Builder.of( EnragedMagmaticGolemEntity::new , EntityClassification.CREATURE ).sized(1.4F, 2.7F)
+            () -> EntityType.Builder.of( EnragedMagmaticGolemEntity::new , EntityClassification.MONSTER ).sized(1.4F, 2.7F)
                     .build( new ResourceLocation( JustEnoughGolems.MOD_ID , "enraged_magmatic_golem" ).toString() ) );
     public static RegistryObject <EntityType <EnragedGolemSpikeEntity>> ENRAGED_GOLEM_SPIKE_ENTITY = ENTITIES.register( "enraged_golem_spike" ,
             () -> EntityType.Builder.of( EnragedGolemSpikeEntity::new, EntityClassification.MISC).sized(0.8F, 0.8F)
