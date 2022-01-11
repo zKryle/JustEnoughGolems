@@ -15,7 +15,7 @@ public class Config{
         SHOULD_MAGMATIC_GOLEM_SPAWN = BUILDER.comment( "Determines if the Magmatic Golem should spawn in the nether!" )
                 .define( "Magmatic Golem Should Spawn", true );
         MAGMATIC_GOLEM_ENTITY_WEIGHT = BUILDER.comment( "Sets the Magmatic Golem spawn weight in the nether!" )
-                .define( "Magmatic Golem Spawn Weight", 3 );
+                .define( "Magmatic Golem Spawn Weight", 6 );
 
         BUILDER.pop();
         SPEC = BUILDER.build();

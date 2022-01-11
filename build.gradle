@@ -20,7 +20,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = ' 2.0 Magma Release 1.18.1'
+version = ' 2.1 Magma Release 1.18.1'
 group = 'com.zkryle.justenoughgolems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'JustEnoughGolems '
 
