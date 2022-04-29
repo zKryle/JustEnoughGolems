@@ -20,8 +20,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Version:**
-- 1.16.5 [Example]
+**Minecraft, Forge and Mod Version:**
+- Minecraft: 1.16.5, Forge: 36.2.34, Mod: 2.2 [Example]
 
 **Additional context**
 Add any other context about the problem here.
