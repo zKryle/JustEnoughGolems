@@ -18,58 +18,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
 
     protected ItemStack core = ItemStack.EMPTY;
-    private short charge = 0;
+    private short charge  = 0;
     private short rotationAnim = 0;
-    private byte soundTick = 50;
+    private byte soundTick = 0;
 
-    protected ChargingTableBlockEntity( BlockEntityType <?> typeIn, BlockPos pWorldPosition, BlockState pBlockState ){
-        super( typeIn, pWorldPosition, pBlockState );
+    protected ChargingTableBlockEntity( BlockEntityType <?> typeIn , BlockPos pWorldPosition , BlockState pBlockState ){
+        super( typeIn , pWorldPosition , pBlockState );
     }
 
-    public ChargingTableBlockEntity( BlockPos pWorldPosition, BlockState pBlockState) {
-        this(Init.CHARGING_TABLE_BLOCK_ENTITY_TYPE.get(), pWorldPosition, pBlockState);
+    public ChargingTableBlockEntity( BlockPos pWorldPosition , BlockState pBlockState ){
+        this( Init.CHARGING_TABLE_BLOCK_ENTITY_TYPE.get() , pWorldPosition , pBlockState );
     }
 
-    @Override
-    public CompoundTag save( CompoundTag pCompound ){
-        CompoundTag core = new CompoundTag();
-        this.core.save( core );
-        pCompound.putShort( "CHARGE", this.charge );
-        pCompound.put("CORE", core);
-        return super.save( pCompound );
-    }
-
-    @Override
-    public void load( CompoundTag pCompound ){
-            this.setCore( ItemStack.of( (CompoundTag) pCompound.get( "CORE" ) ).copy() );
-            this.setCharge( pCompound.getShort( "CHARGE" ) );
-            super.load( pCompound );
-    }
-
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        return this.save(new CompoundTag());
-    }
-
-    @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket()
-    {
-        CompoundTag nbt = new CompoundTag();
-        this.save(nbt);
-        this.setChanged();
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public void onDataPacket( Connection net, ClientboundBlockEntityDataPacket packet){
-        CompoundTag tag = packet.getTag();
-        this.load( tag );
-        this.setChanged();
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition).getBlock().defaultBlockState(), level.getBlockState(worldPosition), 2);
-    }
-
-    public static void tick( Level level, BlockPos pos, BlockState state, ChargingTableBlockEntity blockEntity){
+    public static void tick( Level level , BlockPos pos , BlockState state , ChargingTableBlockEntity blockEntity ){
         if(level.isClientSide()){
             if(blockEntity.rotationAnim < 360){
                 if(blockEntity.getCorePercentage() > 10){
@@ -91,9 +52,56 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
                 blockEntity.playLoop();
                 blockEntity.soundTick = 105;
             }
-            blockEntity.soundTick = (byte) Math.max( 0, --blockEntity.soundTick);
+            blockEntity.soundTick = (byte) Math.max( 0 , --blockEntity.soundTick );
+        } else {
+            if(blockEntity.soundTick == 0){
+                blockEntity.playLoopEnd();
+            }
+            blockEntity.soundTick = (byte) Math.max( -1 , --blockEntity.soundTick );
         }
 
+    }
+
+    @Override
+    protected void saveAdditional( CompoundTag pCompound ){
+        CompoundTag core = new CompoundTag();
+        this.core.save( core );
+        pCompound.putShort( "CHARGE" , this.charge );
+        pCompound.put( "CORE" , core );
+        System.out.println(pCompound);
+    }
+
+
+
+    @Override
+    public void load( CompoundTag pCompound ){
+        System.out.println(pCompound);
+        System.out.println("\npenis\n" + pCompound.get( "CORE" ));
+        this.setCore( ItemStack.of( (CompoundTag) pCompound.get( "CORE" ) ).copy() );
+        this.setCharge( pCompound.getShort( "CHARGE" ) );
+        super.load( pCompound );
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(){
+        return this.saveWithoutMetadata();
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket(){
+        CompoundTag nbt = new CompoundTag();
+        this.saveAdditional( nbt );
+        this.setChanged();
+        return ClientboundBlockEntityDataPacket.create( this );
+    }
+
+    @Override
+    public void onDataPacket( Connection net , ClientboundBlockEntityDataPacket packet ){
+        CompoundTag tag = packet.getTag();
+        this.load( tag );
+        this.setChanged();
+        level.sendBlockUpdated( worldPosition , level.getBlockState( worldPosition ).getBlock().defaultBlockState() ,
+                                level.getBlockState( worldPosition ) , 2 );
     }
 
     @Override
@@ -102,14 +110,17 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
     }
 
     @Override
-    public void setCore( ItemStack core ){
-        if(core.isEmpty()) {this.playLoopEnd();} else soundTick = 0;
-        this.core = core;
-    }
-
-    @Override
     public ItemStack getCore(){
         return this.core;
+    }
+
+
+
+    @Override
+    public void setCore( ItemStack core ){
+        this.core = core;
+        this.setChanged();
+        if(!core.isEmpty()) soundTick = 0;
     }
 
     @Override
@@ -117,29 +128,33 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
         return false;
     }
 
-    @OnlyIn( Dist.CLIENT )
+    @OnlyIn(Dist.CLIENT)
     public short getRotationAnim(){
         return this.rotationAnim;
     }
 
-    @OnlyIn( Dist.CLIENT )
+    @OnlyIn(Dist.CLIENT)
     public void resetRotationAnim(){
         this.rotationAnim = 0;
-    }
-
-    public void setCharge (short charge){
-        this.charge = charge;
     }
 
     public short getCharge(){
         return this.charge;
     }
 
+    public void setCharge( short charge ){
+        this.charge = charge;
+    }
+
     private void playLoop(){
-        if(!this.level.isClientSide()) this.level.playSound( null, this.getBlockPos(), Init.CHARGING_STATION_LOOP.get(), SoundSource.BLOCKS, 0.05F, 1.0F );
+        if(!this.level.isClientSide()) this.level.playSound( null , this.getBlockPos() ,
+                                                             Init.CHARGING_STATION_LOOP.get() , SoundSource.BLOCKS ,
+                                                             0.05F , 1.0F );
     }
 
     private void playLoopEnd(){
-        if(!this.level.isClientSide()) this.level.playSound( null, this.getBlockPos(), Init.CHARGING_STATION_LOOP_END.get(), SoundSource.BLOCKS, 0.05F, 1.0F );
+        if(!this.level.isClientSide()) this.level.playSound( null , this.getBlockPos() ,
+                                                             Init.CHARGING_STATION_LOOP_END.get() ,
+                                                             SoundSource.BLOCKS , 0.05F , 1.0F );
     }
 }

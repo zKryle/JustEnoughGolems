@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/JustEnoughGolems.iml" filepath="$PROJECT_DIR$/.idea/JustEnoughGolems.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustEnoughGolems.main.iml" filepath="$PROJECT_DIR$/.idea/modules/JustEnoughGolems.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustEnoughGolems.test.iml" filepath="$PROJECT_DIR$/.idea/modules/JustEnoughGolems.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.iml" filepath="$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.zkryle.justenoughgolems.JustEnoughGolems.test.iml" />
     </modules>
   </component>
 </project>

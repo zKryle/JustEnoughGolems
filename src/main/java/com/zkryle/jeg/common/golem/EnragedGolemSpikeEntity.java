@@ -52,7 +52,7 @@ public class EnragedGolemSpikeEntity extends Entity{
     }
 
     private void dealDamageTo( LivingEntity p_190551_1_ ){
-        if(p_190551_1_.isAlive() && !p_190551_1_.isInvulnerable()){
+        if(p_190551_1_.isAlive() && !p_190551_1_.isInvulnerable() && !(p_190551_1_ instanceof EnragedMagmaticGolemEntity)){
             p_190551_1_.hurt( DamageSource.MAGIC , 4.0F );
         }
     }
