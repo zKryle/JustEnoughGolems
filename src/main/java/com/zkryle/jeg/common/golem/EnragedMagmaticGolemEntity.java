@@ -191,6 +191,16 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             if(this.isTame() && this.getOwnerUUID().equals( pPlayer.getUUID() )) this.setUnTamed();
             this.soundFlag = true;
             return InteractionResult.SUCCESS;
+        } else if(pPlayer.getItemInHand( pHand ).getItem() == Init.MAGMATIC_OBSIDIAN_ITEM.get()
+                && this.getHealth() < this.getMaxHealth()){
+
+            if(!pPlayer.getAbilities().instabuild){
+                pPlayer.getItemInHand( pHand ).shrink( 1 );
+            }
+            this.playSound( SoundEvents.IRON_GOLEM_REPAIR , 1.0f , 1.0f );
+            this.heal( 16.0f );
+
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
@@ -253,14 +263,14 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         boolean flag = pEntity.hurt( DamageSource.mobAttack(this), f1);
         if (flag) {
             boolean flag1 = new Random().nextInt(20) == 5;
-            pEntity.setDeltaMovement(pEntity.getDeltaMovement().add(this.getForward().x() * 1.7F * (flag1 ? 2.0F : 1.0F), 0.7F , this.getForward().z() * 1.7F * (flag1 ? 2.0F : 1.0F)));
+            pEntity.setDeltaMovement(pEntity.getDeltaMovement().add(this.getLookAngle().x() * 1.7F * (flag1 ? 2.0F : 1.0F), 0.7F , this.getLookAngle().z() * 1.7F * (flag1 ? 2.0F : 1.0F)));
             this.doEnchantDamageEffects(this, pEntity);
             for (Entity entity : pEntity.level.getEntities(pEntity, new AABB( pEntity.blockPosition().east(2).south(2).below(), pEntity.blockPosition().north(2).west(2).above() ) )){
                 if(!(entity instanceof EnragedMagmaticGolemEntity)){
                     boolean flag2 = !(entity instanceof ItemEntity);
                     if(flag2) entity.hurt( DamageSource.mobAttack(this), f1/8.0F);
                     float v = 1.2F * (flag1 ? 2.0F : 1.0F);
-                    entity.setDeltaMovement( pEntity.getDeltaMovement().add( this.getForward().x() * v , 0.7F , this.getForward().z() * v ) );
+                    entity.setDeltaMovement( pEntity.getDeltaMovement().add( this.getLookAngle().x() * v , 0.7F , this.getLookAngle().z() * v ) );
                 }
             }
         }

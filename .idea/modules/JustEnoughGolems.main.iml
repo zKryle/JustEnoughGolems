@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="JustEnoughGolems:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.zkryle.justenoughgolems" external.system.module.type="sourceSet" external.system.module.version=" 2.0 Magma Release 1.18.1" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="JustEnoughGolems:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.zkryle.justenoughgolems" external.system.module.type="sourceSet" external.system.module.version=" 2.2 Magma Release 1.18.1" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="minecraft" name="Minecraft">
       <configuration>
         <autoDetectTypes>
-          <platformType>FORGE</platformType>
-          <platformType>MIXIN</platformType>
           <platformType>MCP</platformType>
         </autoDetectTypes>
       </configuration>
     </facet>
   </component>
   <component name="McpModuleSettings">
-    <option name="mappingFile" value="C:\Users\ciro2\Desktop\Programmazione\Minecraft\JustEnoughGolems\build\createMcpToSrg\output.tsrg" />
+    <option name="mappingFile" value="L:\zKryle\Programmazione\Minecraft\JustEnoughGolems\build\createMcpToSrg\output.tsrg" />
     <option name="mcpVersion" value="parchment_2021.12.13-nightly-SNAPSHOT-1.18.1" />
     <option name="minecraftVersion" value="1.18.1" />
     <option name="srgType" value="TSRG" />
@@ -40,7 +38,7 @@
     <orderEntry type="library" name="Gradle: net.minecraft:mappings_parchment:zip:2021.12.13-nightly-SNAPSHOT-1.18.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: cpw.mods:securejarhandler:0.9.54" level="project" />
     <orderEntry type="library" name="Gradle: org.openjdk.nashorn:nashorn-core:15.3" level="project" />
-    <orderEntry type="library" name="Gradle: cpw.mods:modlauncher:9.0.21" level="project" />
+    <orderEntry type="library" name="Gradle: cpw.mods:modlauncher:9.0.24" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-commons:9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-util:9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-analysis:9.1" level="project" />

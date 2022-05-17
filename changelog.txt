@@ -1,1 +1,1 @@
-Magma Release 2.2: Default magmatic golem spawnrate made a little higher, was too low!
+Magma Release 2.2.1-HF: Addressed a wrong method call which caused a server crash.
