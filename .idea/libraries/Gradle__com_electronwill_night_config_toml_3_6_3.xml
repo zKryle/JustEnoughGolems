@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.6.3/2b05b4d606c517da4d1a7b6d2b97d751c92887d7/toml-3.6.3.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.6.3/f7542a1d2af6ace5406578d437e95f622b0cbb33/toml-3.6.3-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.6.3/f9753a7a649c6ce52ae754a7989c02941d67ef23/toml-3.6.3-sources.jar!/" />
     </SOURCES>

@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.6.3/c601bfeaeb2c0abe7aaa901b0bbe6d1beff49281/core-3.6.3.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.6.3/2bda853e7be61cf63c8c1f6ddb80c7d01aa52efa/core-3.6.3-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.6.3/322b90f5fdccbc18e6929b4addbb9b8b6979a977/core-3.6.3-sources.jar!/" />
     </SOURCES>
