@@ -15,7 +15,7 @@ public class MagmaticGolemEntityRenderer extends MobRenderer <MagmaticGolemEntit
 
     public MagmaticGolemEntityRenderer( EntityRendererProvider.Context context ){
         super( context , new MagmaticGolemModel <>(context.bakeLayer( MagmaticGolemModel.LAYER_LOCATION )) , 0.4f );
-        this.addLayer( new ItemInHandLayer <>( this ) );
+        this.addLayer( new ItemInHandLayer <>( this, context.getItemInHandRenderer() ) );
     }
 
     @Override

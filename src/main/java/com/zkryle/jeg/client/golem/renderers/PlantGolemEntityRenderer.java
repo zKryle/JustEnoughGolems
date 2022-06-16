@@ -14,7 +14,7 @@ public class PlantGolemEntityRenderer extends MobRenderer <PlantGolemEntity, Pla
 
     public PlantGolemEntityRenderer( EntityRendererProvider.Context manager ){
         super( manager , new PlantGolemEntityModel <>(manager.bakeLayer( PlantGolemEntityModel.LAYER_LOCATION  )) , 0.4f );
-        this.addLayer(new ItemInHandLayer <>(this));
+        this.addLayer(new ItemInHandLayer <>(this, manager.getItemInHandRenderer()));
     }
 
 

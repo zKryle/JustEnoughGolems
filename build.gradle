@@ -20,7 +20,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = ' 2.2.1-HF Magma Release 1.18.2'
+version = ' 2.2.1-HF Magma Release 1.19'
 group = 'com.zkryle.justenoughgolems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'JustEnoughGolems '
 
@@ -39,8 +39,8 @@ minecraft {
     //
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'parchment', version: '2022.03.13-1.18.2'
-    //mappings channel: 'official', version: '1.18'
+    //mappings channel: 'parchment', version: '2022.03.13-1.18.2'
+    mappings channel: 'official', version: '1.19'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -128,7 +128,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.19'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.30'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -193,7 +193,7 @@ curseforge {
         id = '548411'
         changelog = file('changelog.txt') // A file can also be set using: changelog = file('changelog.txt')
         releaseType = 'release'
-        addGameVersion "1.18.2"
+        addGameVersion "1.19"
     }
 }
 

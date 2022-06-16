@@ -4,7 +4,6 @@ import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import com.zkryle.jeg.common.tileentities.ChargingTableBlockEntity;
-import com.zkryle.jeg.core.Config;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +11,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.*;
@@ -21,23 +19,18 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-import static com.zkryle.jeg.core.Config.SHOULD_MAGMATIC_GOLEM_SPAWN;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @Mod.EventBusSubscriber
@@ -147,18 +140,6 @@ public class StaticEventSubscriber{
             event.getPlayer().setItemInHand( event.getHand(), new ItemStack( Items.BUCKET ) );
             event.getPlayer().swing( event.getHand() );
             event.getWorld().playSound( event.getPlayer(), event.getPos(), SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F );
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onBiomeLoad(final BiomeLoadingEvent event) {
-        if (event.getName() == null)
-            return;
-        if(SHOULD_MAGMATIC_GOLEM_SPAWN.get()){
-            if(event.getCategory().equals( Biome.BiomeCategory.NETHER )){
-                event.getSpawns().addSpawn( MobCategory.MONSTER ,
-                        new MobSpawnSettings.SpawnerData( Init.MAGMATIC_GOLEM_ENTITY.get() , Config.MAGMATIC_GOLEM_ENTITY_WEIGHT.get() , 1 , 1 ) );
-            }
         }
     }
 

@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -159,7 +160,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             if(coreDischargeCounter <= 0){
                 coreDischargeCounter = 1200;
                 if(!this.level.isClientSide()){
-                    this.core.hurt( 5 , new Random() , null );
+                    this.core.hurt( 5 , RandomSource.create() , null );
                 }
             }
         }
@@ -180,7 +181,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
             this.coreDelay = 80;
             this.setCore( pPlayer.getItemInHand( pHand ).copy() );
             pPlayer.setItemInHand( pHand, ItemStack.EMPTY );
-            if(getCorePercentage() > 2) this.core.hurt( 20, new Random(), null );
+            if(getCorePercentage() > 2) this.core.hurt( 20, RandomSource.create(), null );
             if(!pPlayer.isShiftKeyDown()) this.setTamed( pPlayer );
             this.level.playSound( pPlayer, this.blockPosition().above(), Init.INSERTING_CORE_GOLEM.get(), SoundSource.NEUTRAL, 0.5F, 1.0F );
             return InteractionResult.SUCCESS;
@@ -429,7 +430,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         }
 
         private void performAttack( LivingEntity target, double distanceToTarget ){
-            this.golem.getCore().hurt( 3, new Random(), null );
+            this.golem.getCore().hurt( 3, RandomSource.create(), null );
             float f = (float)Mth.atan2(target.getZ() - this.golem.getZ(), target.getX() - this.golem.getX());
             for(int l = 0; l < distanceToTarget; ++l) {
                 double d2 = 1.25D * (l - 3.0D);

@@ -95,6 +95,7 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
         return ClientboundBlockEntityDataPacket.create( this );
     }
 
+
     @Override
     public void onDataPacket( Connection net , ClientboundBlockEntityDataPacket packet ){
         CompoundTag tag = packet.getTag();
