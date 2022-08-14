@@ -13,8 +13,7 @@ import com.zkryle.jeg.client.tileentityrenderers.ChargingTableBlockEntityRendere
 import com.zkryle.jeg.core.Init;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ForgeModelBakery;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -24,9 +23,9 @@ public class StaticClientEventSubscriber{
     public static ResourceLocation FULL_CORE = new ResourceLocation( JustEnoughGolems.MOD_ID, "item/special/full_core" );
 
     @SubscribeEvent
-    public static void registerAdditionalModels( ModelRegistryEvent event ){
-        ForgeModelBakery.addSpecialModel( RECHARGING_CORE );
-        ForgeModelBakery.addSpecialModel( FULL_CORE );
+    public static void registerAdditionalModels( ModelEvent.RegisterAdditional event ){
+        event.register( RECHARGING_CORE );
+        event.register( FULL_CORE );
     }
 
     @SubscribeEvent

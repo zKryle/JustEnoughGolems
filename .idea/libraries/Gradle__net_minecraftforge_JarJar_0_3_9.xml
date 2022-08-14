@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.minecraftforge:JarJar:0.3.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.minecraftforge/JarJar/0.3.9/f533007da5676c83d59c0b312e425b0056b55b4a/JarJar-0.3.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.minecraftforge/JarJar/0.3.9/3393b5722aa4831c74ca66039ac30f3e9daa032d/JarJar-0.3.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

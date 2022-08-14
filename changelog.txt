@@ -1,1 +1,1 @@
-Magma Release 2.2.1-HF: Addressed a wrong method call which caused a server crash.
+Magma Release 2.2.2-HF: Fixed crash caused by Forge rendering system's breaking changes.

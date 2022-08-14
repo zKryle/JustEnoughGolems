@@ -14,7 +14,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 import java.util.Random;
 
@@ -41,8 +41,8 @@ public class ChargingTableBlockEntityRenderer implements BlockEntityRenderer <Ch
             pMatrixStack.translate( 0 , 0 , pBlockEntity.getCorePercentage() / 100.0F - 0.01F );
             mc.getBlockRenderer().getModelRenderer().renderModel( pMatrixStack.last() , pBuffer.getBuffer( renderType ) ,
                     mc.level.getBlockState( pBlockEntity.getBlockPos() ) , this.getCoreModel( pBlockEntity ) ,
-                    1.0F, 1.0F, 1.0F, pCombinedLight ,
-                    OverlayTexture.NO_OVERLAY , EmptyModelData.INSTANCE );
+                    1.0F, 1.0F, 1.0F, pCombinedLight , OverlayTexture.NO_OVERLAY,
+                    ModelData.EMPTY , renderType );
             pMatrixStack.popPose();
 
             if(pBlockEntity.getCore().getDamageValue() == 0){

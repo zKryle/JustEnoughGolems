@@ -60,7 +60,7 @@ public class ChargingTableBlock extends Block implements EntityBlock{
             }
         } else if(pPlayer.getItemInHand( pHand ).getItem() == Items.LAVA_BUCKET && te.getCharge() < 1200){
             te.setCharge( (short) (te.getCharge() + 300) );
-            pPlayer.setItemInHand( pHand , Items.LAVA_BUCKET.getContainerItem( pPlayer.getItemInHand( pHand ) ) );
+            pPlayer.setItemInHand( pHand , Items.LAVA_BUCKET.getCraftingRemainingItem( pPlayer.getItemInHand( pHand ) ) );
             pLevel.playSound( pPlayer, pPos, Init.CHARGING_STATION_LAVA.get(), SoundSource.BLOCKS, 1.0F, 1.0F );
             if(!pLevel.isClientSide()){
                 ((ServerLevel)pLevel).sendParticles( new BlockParticleOption( ParticleTypes.BLOCK, Blocks.LAVA.defaultBlockState() ) , pPos.getX() + 0.5F, pPos.getY(), pPos.getZ() + 0.5F,

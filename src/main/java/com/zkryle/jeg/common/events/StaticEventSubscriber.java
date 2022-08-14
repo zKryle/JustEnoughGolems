@@ -21,10 +21,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -39,7 +39,7 @@ public class StaticEventSubscriber{
     // Handle Golem
     @SubscribeEvent
     public static void onGolemPlaced( BlockEvent.EntityPlaceEvent event ){
-        Level level = (Level) event.getWorld();
+        Level level = (Level) event.getLevel();
         BlockPos pos = event.getPos();
         Block block = event.getState().getBlock();
 
@@ -67,14 +67,14 @@ public class StaticEventSubscriber{
 
     @SubscribeEvent
     public static void onGolemShears( PlayerInteractEvent.RightClickBlock event ){
-        if(event.getPlayer().getMainHandItem().getItem() == Items.SHEARS
-                && event.getWorld().getBlockState( event.getPos() ).getBlock() == Blocks.PUMPKIN){
-            Direction facing = event.getPlayer().getDirection().getOpposite();
-            event.getWorld().setBlock( event.getPos() , Blocks.CARVED_PUMPKIN.defaultBlockState().setValue( HORIZONTAL_FACING , facing ) , 3 );
+        if(event.getEntity().getMainHandItem().getItem() == Items.SHEARS
+                && event.getLevel().getBlockState( event.getPos() ).getBlock() == Blocks.PUMPKIN){
+            Direction facing = event.getEntity().getDirection().getOpposite();
+            event.getLevel().setBlock( event.getPos() , Blocks.CARVED_PUMPKIN.defaultBlockState().setValue( HORIZONTAL_FACING , facing ) , 3 );
             event.setCanceled( true );
-            event.getWorld().playLocalSound( event.getPos().getX() , event.getPos().getY() , event.getPos().getZ() , SoundEvents.PUMPKIN_CARVE , SoundSource.BLOCKS , 1.0F , 1.0F , true );
-            event.getPlayer().getMainHandItem().hurtAndBreak( 1 , event.getPlayer() , p -> p.broadcastBreakEvent( InteractionHand.MAIN_HAND ) );
-            spawnPlantGolem( event.getWorld() , event.getPos().below() , event.getPos() , event.getPlayer().getUUID() );
+            event.getLevel().playLocalSound( event.getPos().getX() , event.getPos().getY() , event.getPos().getZ() , SoundEvents.PUMPKIN_CARVE , SoundSource.BLOCKS , 1.0F , 1.0F , true );
+            event.getEntity().getMainHandItem().hurtAndBreak( 1 , event.getEntity() , p -> p.broadcastBreakEvent( InteractionHand.MAIN_HAND ) );
+            spawnPlantGolem( event.getLevel() , event.getPos().below() , event.getPos() , event.getEntity().getUUID() );
         }
     }
 
@@ -112,7 +112,7 @@ public class StaticEventSubscriber{
     }
 
     @SubscribeEvent
-    public static void addEnragedMagmaticGolemAsTarget( EntityJoinWorldEvent event ){
+    public static void addEnragedMagmaticGolemAsTarget( EntityJoinLevelEvent event ){
         Entity entity = event.getEntity();
         if(entity instanceof Zombie && !(entity instanceof ZombifiedPiglin)){
             ((Zombie) entity).targetSelector.addGoal( 3 , new NearestAttackableTargetGoal <>( (Zombie) entity , EnragedMagmaticGolemEntity.class , true ) );
@@ -133,21 +133,21 @@ public class StaticEventSubscriber{
 
     @SubscribeEvent
     public static void onBlockInteraction( PlayerInteractEvent.RightClickBlock event ){
-        if(event.getWorld().getBlockState( event.getPos() ).getBlock() == Blocks.CRYING_OBSIDIAN &&
-                event.getPlayer().getItemInHand( event.getHand() ).getItem() == Items.LAVA_BUCKET &&
-                !event.getPlayer().isShiftKeyDown()){
-            event.getWorld().setBlockAndUpdate( event.getPos(), Init.MAGMATIC_OBSIDIAN.get().defaultBlockState() );
-            event.getPlayer().setItemInHand( event.getHand(), new ItemStack( Items.BUCKET ) );
-            event.getPlayer().swing( event.getHand() );
-            event.getWorld().playSound( event.getPlayer(), event.getPos(), SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F );
+        if(event.getLevel().getBlockState( event.getPos() ).getBlock() == Blocks.CRYING_OBSIDIAN &&
+                event.getEntity().getItemInHand( event.getHand() ).getItem() == Items.LAVA_BUCKET &&
+                !event.getEntity().isShiftKeyDown()){
+            event.getLevel().setBlockAndUpdate( event.getPos(), Init.MAGMATIC_OBSIDIAN.get().defaultBlockState() );
+            event.getEntity().setItemInHand( event.getHand(), new ItemStack( Items.BUCKET ) );
+            event.getEntity().swing( event.getHand() );
+            event.getLevel().playSound( event.getEntity(), event.getPos(), SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F );
         }
     }
 
     @SubscribeEvent
     public static void blockBroken(final BlockEvent.BreakEvent event){
-        if(event.getWorld().getBlockEntity( event.getPos() ) instanceof ChargingTableBlockEntity){
-            ChargingTableBlockEntity te = (ChargingTableBlockEntity) event.getWorld().getBlockEntity( event.getPos() );
-            if(te.getCore() != null) event.getWorld().addFreshEntity( new ItemEntity( (Level) event.getWorld() , event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), te.getCore() ) );
+        if(event.getLevel().getBlockEntity( event.getPos() ) instanceof ChargingTableBlockEntity){
+            ChargingTableBlockEntity te = (ChargingTableBlockEntity) event.getLevel().getBlockEntity( event.getPos() );
+            if(te.getCore() != null) event.getLevel().addFreshEntity( new ItemEntity( (Level) event.getLevel() , event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), te.getCore() ) );
         }
     }
 }

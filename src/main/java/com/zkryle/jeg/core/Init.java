@@ -48,7 +48,7 @@ public class Init{
 
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD TILE ENTITIES -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-    public static DeferredRegister <BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create( ForgeRegistries.BLOCK_ENTITIES , JustEnoughGolems.MOD_ID );
+    public static DeferredRegister <BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create( ForgeRegistries.BLOCK_ENTITY_TYPES , JustEnoughGolems.MOD_ID );
 
     public static final RegistryObject < BlockEntityType <ChargingTableBlockEntity> > CHARGING_TABLE_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES
             .register("charging_table", () -> BlockEntityType.Builder.of( ChargingTableBlockEntity::new,
@@ -87,7 +87,7 @@ public class Init{
             () -> new Item( new Item.Properties().fireResistant().stacksTo( 1 ).tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP ) .durability( 1000 ) ) );
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ENTITIES -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-    public static DeferredRegister <EntityType <?>> ENTITIES = DeferredRegister.create( ForgeRegistries.ENTITIES , JustEnoughGolems.MOD_ID );
+    public static DeferredRegister <EntityType <?>> ENTITIES = DeferredRegister.create( ForgeRegistries.ENTITY_TYPES , JustEnoughGolems.MOD_ID );
 
     public static RegistryObject <EntityType <PlantGolemEntity>> PLANT_GOLEM_ENTITY = ENTITIES.register( "plant_golem" ,
             () -> EntityType.Builder.of( PlantGolemEntity::new , MobCategory.CREATURE ).sized( 0.55f , 1.2f)
