@@ -4,6 +4,10 @@ import com.zkryle.jeg.common.customgoals.TamedNearestAttackGoal;
 import com.zkryle.jeg.core.Init;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -31,17 +35,18 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class MagmaticGolemEntity extends TamableAnimal{
+public class MagmaticGolemEntity extends TamableAnimal implements IEntityAdditionalSpawnData {
 
     public float headInclination;
-    private boolean isOn = true;
     private ArrayList <Goal> registeredGoals;
+    protected static final EntityDataAccessor<Boolean> isOn = SynchedEntityData.defineId(MagmaticGolemEntity.class, EntityDataSerializers.BOOLEAN);
     public boolean isTransforming = false;
 
     public MagmaticGolemEntity( EntityType <? extends MagmaticGolemEntity> entityType , Level level ){
@@ -56,9 +61,15 @@ public class MagmaticGolemEntity extends TamableAnimal{
         return new MagmaticGolemEntity( level );
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(isOn, false);
+    }
+
     public static AttributeSupplier.Builder createAttributes(){
         return Mob.createMobAttributes().add( Attributes.MAX_HEALTH , 40.0D ).add( Attributes.ATTACK_DAMAGE , 1.5D )
-                .add( Attributes.KNOCKBACK_RESISTANCE , 1.0D );
+                .add( Attributes.KNOCKBACK_RESISTANCE , 0.75D );
     }
 
     @Override
@@ -163,8 +174,9 @@ public class MagmaticGolemEntity extends TamableAnimal{
     }
 
     public boolean isOn(){
-        return this.isOn;
+        return this.entityData.get(isOn);
     }
+
 
     public void setOn( boolean on ){
         if(!this.level.isClientSide()){
@@ -176,23 +188,13 @@ public class MagmaticGolemEntity extends TamableAnimal{
                 registeredGoals.forEach( this.goalSelector::removeGoal );
             }
         }
-        if(on){
-            this.level.broadcastEntityEvent( this , (byte) 5 );
-        }else this.level.broadcastEntityEvent( this , (byte) 4 );
-        this.isOn = on;
+        this.entityData.set(isOn, on);
     }
 
     @Override
     public void handleEntityEvent( byte pId ){
-        if(pId == 4){
-            this.isOn = false;
-        }else if(pId == 5){
-            this.isOn = true;
-        }else if(pId == 7){
-            this.setItemInHand( InteractionHand.MAIN_HAND , ItemStack.EMPTY );
-            super.handleEntityEvent( pId );
-        }
-        super.handleEntityEvent( pId );
+       if(pId == 7) this.setItemInHand( InteractionHand.MAIN_HAND , ItemStack.EMPTY );
+       super.handleEntityEvent( pId );
     }
 
     @Override
@@ -227,7 +229,34 @@ public class MagmaticGolemEntity extends TamableAnimal{
     public boolean checkSpawnRules( LevelAccessor pLevel , MobSpawnType pSpawnReason ){
         BlockState blockBelow = pLevel.getBlockState( this.blockPosition().below() );
         return blockBelow.isValidSpawn( pLevel , this.blockPosition().below() , Init.MAGMATIC_GOLEM_ENTITY.get() )
-                && blockBelow.getBlock() != Blocks.NETHER_WART_BLOCK;
+                && (blockBelow.getBlock() == Blocks.NETHERRACK || blockBelow.getBlock() == Blocks.SOUL_SOIL
+                || blockBelow.getBlock() == Blocks.SOUL_SOIL || blockBelow.getBlock() == Blocks.GRAVEL);
+    }
+
+    @Override
+    public boolean save( CompoundTag pCompound ){
+        pCompound.putBoolean("ON", this.entityData.get(isOn));
+        pCompound.putFloat("HEAD_INCLINATION", this.headInclination);
+        return super.save( pCompound );
+    }
+
+    @Override
+    public void load( CompoundTag pCompound ){
+        this.setOn(pCompound.getBoolean("ON"));
+        this.headInclination = pCompound.getFloat("HEAD_INCLINATION");
+        super.load( pCompound );
+    }
+
+    @Override
+    public void writeSpawnData( FriendlyByteBuf buffer ){
+        buffer.writeBoolean(this.entityData.get(isOn));
+        buffer.writeFloat(this.headInclination);
+    }
+
+    @Override
+    public void readSpawnData( FriendlyByteBuf additionalData ){
+        this.setOn(additionalData.readBoolean());
+        this.headInclination = additionalData.readFloat();
     }
 
     @Override
@@ -256,7 +285,7 @@ public class MagmaticGolemEntity extends TamableAnimal{
     @Override
     public boolean doHurtTarget( Entity pEntity ){
         if(this.isTame()) this.getMainHandItem().hurtAndBreak( 1 , this , ( p_213833_1_ ) -> p_213833_1_.broadcastBreakEvent( InteractionHand.MAIN_HAND ));
-        boolean fireFlag = new Random().nextInt( 100 ) < 10;
+        boolean fireFlag = new Random().nextInt( 100 ) < 5;
         if(fireFlag) pEntity.setSecondsOnFire( 10 );
         pEntity.level.playSound( null , pEntity.blockPosition() , SoundEvents.PLAYER_ATTACK_STRONG , SoundSource.HOSTILE , 1.0F , 1.0F );
         return super.doHurtTarget( pEntity );

@@ -20,7 +20,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = ' 2.2.2-HF Magma Release 1.19 (FORGE BREAKING CHANGES FIX)'
+version = ' 2.2.3-HF Magma Release 1.19.x'
 group = 'com.zkryle.justenoughgolems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'JustEnoughGolems '
 
@@ -193,7 +193,7 @@ curseforge {
         id = '548411'
         changelog = file('changelog.txt') // A file can also be set using: changelog = file('changelog.txt')
         releaseType = 'release'
-        addGameVersion "1.19"
+        addGameVersion "1.19.3"
     }
 }
 

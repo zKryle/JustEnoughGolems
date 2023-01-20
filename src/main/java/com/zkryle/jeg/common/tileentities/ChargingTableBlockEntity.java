@@ -75,8 +75,6 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
 
     @Override
     public void load( CompoundTag pCompound ){
-        System.out.println(pCompound);
-        System.out.println("\npenis\n" + pCompound.get( "CORE" ));
         this.setCore( ItemStack.of( (CompoundTag) pCompound.get( "CORE" ) ).copy() );
         this.setCharge( pCompound.getShort( "CHARGE" ) );
         super.load( pCompound );
@@ -114,8 +112,6 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
     public ItemStack getCore(){
         return this.core;
     }
-
-
 
     @Override
     public void setCore( ItemStack core ){

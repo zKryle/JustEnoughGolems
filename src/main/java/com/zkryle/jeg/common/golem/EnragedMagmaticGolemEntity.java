@@ -10,6 +10,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -47,14 +50,13 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOwner, IEntityAdditionalSpawnData{
-
     private float fallingSpeed = 0.0f;
     private short coreDischargeCounter = 1200;
     public float headInclination;
     public float bodyInclination;
     public float altBodyInclination;
     private ItemStack core = ItemStack.EMPTY;
-    private boolean isOn = false;
+    protected static final EntityDataAccessor<Boolean> isOn = SynchedEntityData.defineId(EnragedMagmaticGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private int attackAnimationTick;
     private int rangedAttackAnimationTick;
     private byte coreDelay = 80;
@@ -64,9 +66,15 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         super( p_i48574_1_ , p_i48574_2_ );
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(isOn, false);
+    }
+
     public static AttributeSupplier.Builder createAttributes(){
         return Mob.createMobAttributes().add(Attributes.FOLLOW_RANGE, 35.0D).add( Attributes.MAX_HEALTH , 300.0D ).add(Attributes.MOVEMENT_SPEED, 0.30D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).add(Attributes.ATTACK_DAMAGE, 30.0D);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.95D).add(Attributes.ATTACK_DAMAGE, 30.0D);
     }
 
     @Override
@@ -207,11 +215,11 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     }
 
     public boolean isOn(){
-        return this.isOn;
+        return this.entityData.get(isOn);
     }
 
     public void setOn( boolean on ){
-        isOn = on;
+        this.entityData.define(isOn, on);
     }
 
     @Override
@@ -219,12 +227,20 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         CompoundTag core = new CompoundTag();
         this.core.save( core );
         pCompound.put("CORE", core);
+        pCompound.putBoolean("ON", this.entityData.get(isOn));
+        pCompound.putFloat("HEAD_INCLINATION", this.headInclination);
+        pCompound.putFloat("BODY_INCLINATION", this.bodyInclination);
+        pCompound.putFloat("ALT_BODY_INCLINATION", this.altBodyInclination);
         return super.save( pCompound );
     }
 
     @Override
     public void load( CompoundTag pCompound ){
         this.setCore( ItemStack.of( (CompoundTag) pCompound.get( "CORE" ) ).copy() );
+        this.setOn(pCompound.getBoolean("ON"));
+        this.headInclination = pCompound.getFloat("HEAD_INCLINATION");
+        this.bodyInclination = pCompound.getFloat("BODY_INCLINATION");
+        this.altBodyInclination = pCompound.getFloat("ALT_BODY_INCLINATION");
         super.load( pCompound );
     }
 
@@ -236,11 +252,19 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     @Override
     public void writeSpawnData( FriendlyByteBuf buffer ){
         buffer.writeItem(this.core.copy());
+        buffer.writeBoolean(this.entityData.get(isOn));
+        buffer.writeFloat(this.headInclination);
+        buffer.writeFloat(this.bodyInclination);
+        buffer.writeFloat(this.altBodyInclination);
     }
 
     @Override
     public void readSpawnData( FriendlyByteBuf additionalData ){
         this.setCore( additionalData.readItem().copy() );
+        this.setOn(additionalData.readBoolean());
+        this.headInclination = additionalData.readFloat();
+        this.bodyInclination = additionalData.readFloat();
+        this.altBodyInclination = additionalData.readFloat();
     }
 
     @Override
