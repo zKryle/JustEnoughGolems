@@ -1,7 +1,6 @@
 package com.zkryle.jeg.client.golem.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.client.golem.models.EnragedMagmaticGolemModel;
 import com.zkryle.jeg.client.golem.models.PlantGolemEntityModel;
@@ -9,6 +8,8 @@ import com.zkryle.jeg.common.golem.EnragedMagmaticGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 
 public class EnragedMagmaticGolemRenderer extends MobRenderer <EnragedMagmaticGolemEntity, EnragedMagmaticGolemModel<EnragedMagmaticGolemEntity>>{
 
@@ -33,7 +34,7 @@ public class EnragedMagmaticGolemRenderer extends MobRenderer <EnragedMagmaticGo
         if (!((double)pEntityLiving.animationSpeed < 0.01D)) {
             float f1 = pEntityLiving.animationPosition - pEntityLiving.animationSpeed * (1.0F - pPartialTicks) + 6.0F;
             float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            pMatrixStack.mulPose( Vector3f.ZP.rotationDegrees(6.5F * f2));
+            pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(6.5F * f2), 0, 0, 1 )));
         }
     }
 

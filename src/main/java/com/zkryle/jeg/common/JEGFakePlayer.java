@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.ConnectionProtocol;
+import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
@@ -19,6 +20,7 @@ import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.FakePlayer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.crypto.Cipher;
 import java.lang.ref.WeakReference;
 import java.net.SocketAddress;
@@ -316,7 +318,7 @@ public class JEGFakePlayer extends FakePlayer {
 
 		@Override
 		public void send(Packet<?> pPacket,
-				GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> pFutureListeners) {
+						 @Nullable PacketSendListener p_243273_) {
 		}
 
 		@Override
@@ -423,7 +425,7 @@ public class JEGFakePlayer extends FakePlayer {
 
 			@Override
 			public void send(Packet<?> pPacket,
-					GenericFutureListener<? extends io.netty.util.concurrent.Future<? super Void>> p_201058_2_) {
+					@Nullable PacketSendListener p_243273_) {
 			}
 
 			@Override

@@ -26,8 +26,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static com.zkryle.jeg.core.JEGItemGroup.JEG_ITEM_GROUP;
-
 public class Init{
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD BLOCKS -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -59,32 +57,32 @@ public class Init{
 
     public static RegistryObject <BlockItem> PRECIOUS_MOSSY_COBBLESTONE_ITEM = ITEMS.register( "precious_mossy_cobblestone" ,
             () -> new BlockItem( PRECIOUS_MOSSY_COBBLESTONE.get() ,
-                    new Item.Properties().tab( CreativeModeTab.TAB_BUILDING_BLOCKS ).tab( JEG_ITEM_GROUP ) ) );
+                    new Item.Properties() ) );
 
     public static RegistryObject <BlockItem> MOSSY_OBSERVER_ITEM = ITEMS.register( "mossy_observer" ,
             () -> new BlockItem( MOSSY_OBSERVER.get() ,
-                    new Item.Properties().tab( CreativeModeTab.TAB_REDSTONE ).tab( JEG_ITEM_GROUP )  ) );
+                    new Item.Properties()  ) );
 
     public static RegistryObject <BlockItem> MAGMATIC_OBSIDIAN_ITEM = ITEMS.register( "magmatic_obsidian" ,
             () -> new BlockItem( MAGMATIC_OBSIDIAN.get() ,
-                    new Item.Properties().fireResistant().tab( CreativeModeTab.TAB_BUILDING_BLOCKS ).tab( JEG_ITEM_GROUP )  ) );
+                    new Item.Properties().fireResistant()  ) );
 
     public static RegistryObject <BlockItem> CHARGING_TABLE_ITEM = ITEMS.register( "charging_table" ,
             () -> new BlockItem( CHARGING_TABLE.get() ,
-                    new Item.Properties().fireResistant().tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP )  ) );
+                    new Item.Properties().fireResistant()  ) );
 
     public static RegistryObject <Item> MAGMATIC_OBSIDIAN_SHARD_ITEM = ITEMS.register( "magmatic_obsidian_shard" ,
-            () -> new Item( new Item.Properties().fireResistant().tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP ) ) );
+            () -> new Item( new Item.Properties().fireResistant() ) );
 
     public static RegistryObject <Item> MAGMATIC_CHARM_ITEM = ITEMS.register( "magmatic_charm" ,
-            () -> new MagmaticCharm( new Item.Properties().fireResistant().stacksTo( 1 ).tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP ) ) );
+            () -> new MagmaticCharm( new Item.Properties().fireResistant().stacksTo( 1 ) ) );
 
     public static RegistryObject <Item> MAGMATIC_PENDANT_ITEM = ITEMS.register( "magmatic_pendant" ,
-            () -> new Item( new Item.Properties().fireResistant().stacksTo( 1 ).tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP ) ) );
+            () -> new Item( new Item.Properties().fireResistant().stacksTo( 1 ) ) );
 
 
     public static RegistryObject <Item> NETHER_CORE_ITEM = ITEMS.register( "nether_core" ,
-            () -> new Item( new Item.Properties().fireResistant().stacksTo( 1 ).tab( CreativeModeTab.TAB_MISC ).tab( JEG_ITEM_GROUP ) .durability( 1000 ) ) );
+            () -> new Item( new Item.Properties().fireResistant().stacksTo( 1 ).durability( 1000 ) ) );
 
     // _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- MOD ENTITIES -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
     public static DeferredRegister <EntityType <?>> ENTITIES = DeferredRegister.create( ForgeRegistries.ENTITY_TYPES , JustEnoughGolems.MOD_ID );
@@ -108,91 +106,91 @@ public class Init{
 
     public static final RegistryObject<SoundEvent> PLANT_GOLEM_DIES = SOUNDS.register(
             "entity.plant_golem_dies",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_dies")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_dies")));
 
     public static final RegistryObject<SoundEvent> PLANT_GOLEM_HURTS = SOUNDS.register(
             "entity.plant_golem_hurts",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_hurts")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_hurts")));
 
     public static final RegistryObject<SoundEvent> PLANT_GOLEM_STEP = SOUNDS.register(
             "entity.plant_golem_step",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_step")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.plant_golem_step")));
 
     public static final RegistryObject<SoundEvent> INSERTING_CORE_GOLEM = SOUNDS.register(
             "entity.inserting_core_golem",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.inserting_core_golem")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.inserting_core_golem")));
 
     public static final RegistryObject<SoundEvent> INSERTING_CORE = SOUNDS.register(
             "block.inserting_core",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.inserting_core")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.inserting_core")));
 
     public static final RegistryObject <SoundEvent> EXTRACTING_CORE = SOUNDS.register(
             "block.extracting_core",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.extracting_core")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.extracting_core")));
 
     public static final RegistryObject<SoundEvent> GOLEM_EXTRACTING_CORE = SOUNDS.register(
             "entity.golem_extracting_core",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.golem_extracting_core")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.golem_extracting_core")));
 
     public static final RegistryObject<SoundEvent> CHARGING_STATION_LOOP = SOUNDS.register(
             "block.charging_table.loop",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.loop")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.loop")));
 
     public static final RegistryObject<SoundEvent> CHARGING_STATION_LOOP_END = SOUNDS.register(
             "block.charging_table.loop_end",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.loop_end")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.loop_end")));
 
     public static final RegistryObject<SoundEvent> CHARGING_STATION_LAVA = SOUNDS.register(
             "block.charging_table.lava",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.lava")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "block.charging_table.lava")));
 
     public static final RegistryObject<SoundEvent> MAGMATIC_GOLEM_HURTS = SOUNDS.register(
             "entity.magmatic_golem_hurts",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_hurts")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_hurts")));
 
     public static final RegistryObject<SoundEvent> MAGMATIC_GOLEM_DIES = SOUNDS.register(
             "entity.magmatic_golem_dies",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_dies")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_dies")));
 
     public static final RegistryObject<SoundEvent> MAGMATIC_GOLEM_STARTING = SOUNDS.register(
             "entity.magmatic_golem_starting",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_starting")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_starting")));
 
     public static final RegistryObject<SoundEvent> MAGMATIC_GOLEM_SHUTDOWN = SOUNDS.register(
             "entity.magmatic_golem_shutdown",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_shutdown")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_shutdown")));
 
     public static final RegistryObject<SoundEvent> MAGMATIC_GOLEM_TRANSFORMS = SOUNDS.register(
             "entity.magmatic_golem_transforms",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_transforms")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.magmatic_golem_transforms")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_MAGMATIC_GOLEM_STEP = SOUNDS.register(
             "entity.enraged_magmatic_golem_step",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_step")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_step")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_MAGMATIC_GOLEM_HURT = SOUNDS.register(
             "entity.enraged_magmatic_golem_hurt",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_hurt")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_hurt")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_MAGMATIC_GOLEM_DIES = SOUNDS.register(
             "entity.enraged_magmatic_golem_dies",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_dies")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_dies")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_MAGMATIC_GOLEM_ATTACK = SOUNDS.register(
             "entity.enraged_magmatic_golem_attack",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_attack")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_magmatic_golem_attack")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_GOLEM_SPIKE_ATTACK = SOUNDS.register(
             "entity.enraged_golem_spike_attack",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_golem_spike_attack")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_golem_spike_attack")));
 
     public static final RegistryObject<SoundEvent> ENRAGED_GOLEM_SPIKE_SOUND = SOUNDS.register(
             "entity.enraged_golem_spike_sound",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_golem_spike_sound")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.enraged_golem_spike_sound")));
 
     public static final RegistryObject<SoundEvent> GROUND_PUNCH = SOUNDS.register(
             "entity.ground_punch",
-            () -> new SoundEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.ground_punch")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(JustEnoughGolems.MOD_ID, "entity.ground_punch")));
 
 
 }

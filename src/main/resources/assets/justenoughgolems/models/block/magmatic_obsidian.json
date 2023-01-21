@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "justenoughgolems:blocks/magmatic_obsidian"
+    "all": "justenoughgolems:block/magmatic_obsidian"
   }
 }

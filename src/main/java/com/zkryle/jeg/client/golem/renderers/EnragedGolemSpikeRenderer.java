@@ -13,7 +13,9 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import static com.zkryle.jeg.client.golem.models.EnragedGolemSpikeModel.LAYER_LOCATION;
 
@@ -35,7 +37,7 @@ public class EnragedGolemSpikeRenderer<T extends EnragedGolemSpikeEntity> extend
             }
 
             pMatrixStack.pushPose();
-            pMatrixStack.mulPose( Vector3f.YP.rotationDegrees(90.0F - pEntity.yRotO));
+            pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(90.0F - pEntity.yRotO), 0, 1, 0 )));
             pMatrixStack.scale(-f1, -f1, f1);
             pMatrixStack.translate(0.0D, (double)-1.75F - pEntity.getRaiseAnim() , 0.0D);
             pMatrixStack.scale(1.5F, 1.5F, 1.5F);

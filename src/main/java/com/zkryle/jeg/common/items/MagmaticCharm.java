@@ -4,6 +4,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 public class MagmaticCharm extends Item{
     public MagmaticCharm( Properties pProperties ){
@@ -13,7 +14,7 @@ public class MagmaticCharm extends Item{
     @Override
     public InteractionResult useOn( UseOnContext pContext ){
         if(!pContext.getLevel().isClientSide()) pContext.getLevel().explode( pContext.getPlayer(), pContext.getClickedPos().getX(), pContext.getClickedPos().getY(), pContext.getClickedPos().getZ(),
-                3, true, Explosion.BlockInteraction.DESTROY);
+                3, true, Level.ExplosionInteraction.MOB);
         pContext.getItemInHand().shrink( 1 );
         return InteractionResult.SUCCESS;
     }

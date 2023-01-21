@@ -1,7 +1,6 @@
 package com.zkryle.jeg.client.tileentityrenderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import com.zkryle.jeg.common.tileentities.ChargingTableBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -15,6 +14,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.model.data.ModelData;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 
 import java.util.Random;
 
@@ -32,9 +33,9 @@ public class ChargingTableBlockEntityRenderer implements BlockEntityRenderer <Ch
             Minecraft mc = Minecraft.getInstance();
             pMatrixStack.pushPose();
             pMatrixStack.translate( 0.5F , 0.5F , 0.5F );
-            pMatrixStack.mulPose( Vector3f.YP.rotationDegrees( pBlockEntity.getRotationAnim() ) );
+            pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(pBlockEntity.getRotationAnim()), 0, 1, 0 )));
             pMatrixStack.translate( -0.5F , -0.5F , -0.5F );
-            pMatrixStack.mulPose( Vector3f.XN.rotationDegrees( 90.0F ) );
+            pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(90.0F), -1, 0, 0 )));
             pMatrixStack.translate( -0.03F , -1.03F , 0.37F );
             pMatrixStack.scale( 1.0F , 1.0F , 1.0F );
             RenderType renderType = ItemBlockRenderTypes.getRenderType( mc.level.getBlockState( pBlockEntity.getBlockPos() ) , false );

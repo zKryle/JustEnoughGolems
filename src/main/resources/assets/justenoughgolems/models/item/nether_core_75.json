@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "justenoughgolems:items/nether_core_75"
+    "layer0": "justenoughgolems:item/nether_core_75"
   }
 }

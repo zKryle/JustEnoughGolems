@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "justenoughgolems:items/nether_core_100"
+    "layer0": "justenoughgolems:item/nether_core_100"
   },
   "overrides": [
     { "predicate": { "damaged": 1, "damage": 0.25  }, "model": "justenoughgolems:item/nether_core_75" },

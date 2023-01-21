@@ -1,11 +1,11 @@
 {
   "parent": "block/block",
   "textures": {
-    "bottom": "justenoughgolems:blocks/mossy_observer_back_on",
-    "side": "justenoughgolems:blocks/mossy_observer_side",
-    "top": "justenoughgolems:blocks/mossy_observer_top",
-    "front": "justenoughgolems:blocks/mossy_observer_front",
-    "particle": "justenoughgolems:blocks/mossy_observer_front"
+    "bottom": "justenoughgolems:block/mossy_observer_back_on",
+    "side": "justenoughgolems:block/mossy_observer_side",
+    "top": "justenoughgolems:block/mossy_observer_top",
+    "front": "justenoughgolems:block/mossy_observer_front",
+    "particle": "justenoughgolems:block/mossy_observer_front"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

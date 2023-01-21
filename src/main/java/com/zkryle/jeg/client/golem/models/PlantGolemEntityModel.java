@@ -6,7 +6,6 @@ package com.zkryle.jeg.client.golem.models;// Made with Blockbench 4.0.5
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.common.golem.PlantGolemEntity;
 import net.minecraft.client.model.ArmedModel;
@@ -18,6 +17,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityModel <T> implements ArmedModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -92,7 +94,7 @@ public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityMod
 	public void renderToBuffer( PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		poseStack.scale( 1.5f, 1.5f, 1.5f );
 		poseStack.translate( -0.025f, -0.5f, 0.0f );
-		poseStack.mulPose( Vector3f.YP.rotationDegrees(180) );
+		poseStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(180.0F), 0, 1, 0 )));
 		bodyParts().forEach( part -> part.render(poseStack, buffer, packedLight, packedOverlay));
 	}
 
@@ -101,7 +103,7 @@ public class PlantGolemEntityModel<T extends PlantGolemEntity> extends EntityMod
 		arm2.translateAndRotate(poseStack);
 		poseStack.scale( 0.5f, 0.5f, 0.5f );
 		poseStack.translate( 0.2d, 1.3d, -0.1d );
-		poseStack.mulPose( Vector3f.XN.rotationDegrees(180) );
+		poseStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(180.0F), -1, 0, 0 )));
 
 	}
 }

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mojang:javabridge:2.0.25">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mojang/javabridge/2.0.25/bfa589b0bd71588fa7e594640114b0cda0cff5f6/javabridge-2.0.25.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mojang/javabridge/2.0.25/c54b109c361cedd0b9706b770b9ca26a1d7d1612/javabridge-2.0.25-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

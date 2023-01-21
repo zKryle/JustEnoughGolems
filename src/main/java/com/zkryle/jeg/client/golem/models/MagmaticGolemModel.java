@@ -5,7 +5,6 @@ package com.zkryle.jeg.client.golem.models;// Made with Blockbench 4.1.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import com.zkryle.jeg.JustEnoughGolems;
 import com.zkryle.jeg.common.golem.MagmaticGolemEntity;
 import net.minecraft.client.model.ArmedModel;
@@ -17,6 +16,11 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+import static org.joml.Vector3f.*;
 
 public class MagmaticGolemModel<T extends MagmaticGolemEntity> extends EntityModel <T> implements ArmedModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -92,10 +96,10 @@ public class MagmaticGolemModel<T extends MagmaticGolemEntity> extends EntityMod
 	public void translateToHand( HumanoidArm pSide , PoseStack pMatrixStack ){
 		pMatrixStack.scale( 0.5f, 0.5f, 0.5f );
 		pMatrixStack.translate( -0.35d, 2.3d, 0.05d );
-		pMatrixStack.mulPose( Vector3f.YP.rotationDegrees( 180.0F ) );
+		pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(180.0F), 0, 1, 0 )));
 		this.wholebody.getChild( "arm2" ).translateAndRotate(pMatrixStack);
-		pMatrixStack.mulPose( Vector3f.YN.rotationDegrees( 180.0F ) );
-		pMatrixStack.mulPose( Vector3f.XN.rotationDegrees( 5.0F ) );
+		pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(180.0F), 0, -1, 0 )));
+		pMatrixStack.mulPose( new Quaternionf(new AxisAngle4f((float)Math.toRadians(5.0F), -1, 0, 0 )));
 	}
 
 	@Override

@@ -2,9 +2,9 @@
 	"parent": "block/block",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "justenoughgolems:blocks/charging_table",
-		"3": "justenoughgolems:blocks/charging_table_up",
-		"particle": "justenoughgolems:blocks/charging_table"
+		"2": "justenoughgolems:block/charging_table",
+		"3": "justenoughgolems:block/charging_table_up",
+		"particle": "justenoughgolems:block/charging_table"
 	},
 	"elements": [
 		{

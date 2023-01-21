@@ -303,7 +303,7 @@ public class MagmaticGolemEntity extends TamableAnimal implements IEntityAdditio
             this.isTransforming = true;
             this.remove(RemovalReason.DISCARDED);
             this.playSound( Init.MAGMATIC_GOLEM_TRANSFORMS.get() , 1.0F , 1.0F );
-            if(!level.isClientSide()) this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Explosion.BlockInteraction.DESTROY );
+            if(!level.isClientSide()) this.level.explode( null , this.getX() , this.getY() , this.getZ() , 3 , true , Level.ExplosionInteraction.MOB );
             this.drawExplosionSphere();
             EnragedMagmaticGolemEntity enragedGolem = new EnragedMagmaticGolemEntity( Init.ENRAGED_MAGMATIC_GOLEM_ENTITY.get() , level );
             enragedGolem.setPos( this.getX() , this.getY() , this.getZ() );

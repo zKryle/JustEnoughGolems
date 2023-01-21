@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "justenoughgolems:items/magmatic_charm"
+    "layer0": "justenoughgolems:item/magmatic_charm"
   }
 }
