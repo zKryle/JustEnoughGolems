@@ -47,15 +47,20 @@ public class ChargingTableBlock extends Block implements EntityBlock{
             pPlayer.setItemInHand( pHand, te.getCore().copy() );
             te.setCore( ItemStack.EMPTY );
             if(pLevel.isClientSide()) te.resetRotationAnim();
+            pLevel.sendBlockUpdated( pPos , pLevel.getBlockState( pPos ).getBlock().defaultBlockState() ,
+                    pLevel.getBlockState( pPos ) , 2 );
             pLevel.playSound( pPlayer, pPos, Init.EXTRACTING_CORE.get(), SoundSource.BLOCKS, 1.0F, 1.0F );
             return InteractionResult.SUCCESS;
         } else if(!te.hasCore() && pPlayer.getItemInHand( pHand ).getItem() == Init.NETHER_CORE_ITEM.get()){
             if(0 == pPlayer.getItemInHand( pHand ).getDamageValue()){
                 return InteractionResult.PASS;
-            } else{
+            } else {
+
                 pLevel.playSound( pPlayer, pPos, Init.INSERTING_CORE.get(), SoundSource.BLOCKS, 1.0F, 1.0F );
                 te.setCore( pPlayer.getItemInHand( pHand ).copy() );
                 pPlayer.setItemInHand( pHand , ItemStack.EMPTY );
+                pLevel.sendBlockUpdated( pPos , pLevel.getBlockState( pPos ).getBlock().defaultBlockState() ,
+                        pLevel.getBlockState( pPos ) , 2 );
                 return InteractionResult.SUCCESS;
             }
         } else if(pPlayer.getItemInHand( pHand ).getItem() == Items.LAVA_BUCKET && te.getCharge() < 1200){
@@ -66,6 +71,8 @@ public class ChargingTableBlock extends Block implements EntityBlock{
                 ((ServerLevel)pLevel).sendParticles( new BlockParticleOption( ParticleTypes.BLOCK, Blocks.LAVA.defaultBlockState() ) , pPos.getX() + 0.5F, pPos.getY(), pPos.getZ() + 0.5F,
                         40, 0, 1.0F, 0, 20);
             }
+            pLevel.sendBlockUpdated( pPos , pLevel.getBlockState( pPos ).getBlock().defaultBlockState() ,
+                    pLevel.getBlockState( pPos ) , 2 );
             return InteractionResult.SUCCESS;
         }
         return super.use( pState , pLevel , pPos , pPlayer , pHand , pHit );

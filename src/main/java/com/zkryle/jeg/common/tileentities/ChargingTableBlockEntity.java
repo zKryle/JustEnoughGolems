@@ -68,10 +68,7 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
         this.core.save( core );
         pCompound.putShort( "CHARGE" , this.charge );
         pCompound.put( "CORE" , core );
-        System.out.println(pCompound);
     }
-
-
 
     @Override
     public void load( CompoundTag pCompound ){
@@ -87,25 +84,17 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket(){
-        CompoundTag nbt = new CompoundTag();
-        this.saveAdditional( nbt );
-        this.setChanged();
         return ClientboundBlockEntityDataPacket.create( this );
-    }
-
-
-    @Override
-    public void onDataPacket( Connection net , ClientboundBlockEntityDataPacket packet ){
-        CompoundTag tag = packet.getTag();
-        this.load( tag );
-        this.setChanged();
-        level.sendBlockUpdated( worldPosition , level.getBlockState( worldPosition ).getBlock().defaultBlockState() ,
-                                level.getBlockState( worldPosition ) , 2 );
     }
 
     @Override
     public boolean hasCore(){
         return !this.core.isEmpty();
+    }
+
+    @Override
+    public boolean hasCoreClient() {
+        return false;
     }
 
     @Override
@@ -123,6 +112,11 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
     @Override
     public boolean isDelayElapsed(){
         return false;
+    }
+
+    @Override
+    public float getCorePercentageClient() {
+        return 0;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -144,13 +138,13 @@ public class ChargingTableBlockEntity extends BlockEntity implements ICoreOwner{
     }
 
     private void playLoop(){
-        if(!this.level.isClientSide()) this.level.playSound( null , this.getBlockPos() ,
+        this.level.playSound( null , this.getBlockPos() ,
                                                              Init.CHARGING_STATION_LOOP.get() , SoundSource.BLOCKS ,
                                                              0.05F , 1.0F );
     }
 
     private void playLoopEnd(){
-        if(!this.level.isClientSide()) this.level.playSound( null , this.getBlockPos() ,
+        this.level.playSound( null , this.getBlockPos() ,
                                                              Init.CHARGING_STATION_LOOP_END.get() ,
                                                              SoundSource.BLOCKS , 0.05F , 1.0F );
     }

@@ -56,7 +56,10 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     public float bodyInclination;
     public float altBodyInclination;
     private ItemStack core = ItemStack.EMPTY;
+
     protected static final EntityDataAccessor<Boolean> isOn = SynchedEntityData.defineId(EnragedMagmaticGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<Boolean> hasCore = SynchedEntityData.defineId(EnragedMagmaticGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<Float> corePercentage = SynchedEntityData.defineId(EnragedMagmaticGolemEntity.class, EntityDataSerializers.FLOAT);
     private int attackAnimationTick;
     private int rangedAttackAnimationTick;
     private byte coreDelay = 80;
@@ -70,6 +73,8 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(isOn, false);
+        this.entityData.define(hasCore, false);
+        this.entityData.define(corePercentage, 0.0F);
     }
 
     public static AttributeSupplier.Builder createAttributes(){
@@ -106,8 +111,15 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     }
 
     @Override
-    public void setCore( ItemStack core){
+    public boolean hasCoreClient() {
+        return this.entityData.get(hasCore);
+    }
+
+    @Override
+    public void setCore( ItemStack core ){
         this.core = core;
+        this.entityData.set(corePercentage, getCorePercentage());
+        this.entityData.set(hasCore, core.is(Init.NETHER_CORE_ITEM.get()));
     }
 
     @Override
@@ -121,10 +133,15 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
     }
 
     @Override
+    public float getCorePercentageClient() {
+        return this.entityData.get(corePercentage);
+    }
+
+    @Override
     public void tick(){
-        if(this.getCorePercentage() <= 2 && this.isOn()){
+        if(!level.isClientSide() && this.getCorePercentage() <= 2 && this.isOn()){
             this.setOn( false );
-        } else if(this.getCorePercentage() > 2 && !this.isOn()){
+        } else if(!level.isClientSide() && this.getCorePercentage() > 2 && !this.isOn()){
             this.setOn( true );
         }
         if(!this.isOn()){
@@ -169,6 +186,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
                 coreDischargeCounter = 1200;
                 if(!this.level.isClientSide()){
                     this.core.hurt( 5 , RandomSource.create() , null );
+                    this.entityData.set(corePercentage, getCorePercentage());
                 }
             }
         }
@@ -188,6 +206,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
         if(pPlayer.getItemInHand( pHand ).getItem() == Init.NETHER_CORE_ITEM.get() && !this.hasCore() && bodyInclination >= 1.055f){
             this.coreDelay = 80;
             this.setCore( pPlayer.getItemInHand( pHand ).copy() );
+            this.setOn(true);
             pPlayer.setItemInHand( pHand, ItemStack.EMPTY );
             if(getCorePercentage() > 2) this.core.hurt( 20, RandomSource.create(), null );
             if(!pPlayer.isShiftKeyDown()) this.setTamed( pPlayer );
@@ -197,6 +216,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
                 && ( this.getOwnerUUID() == null || this.getOwnerUUID().equals( pPlayer.getUUID() ) )) {
             pPlayer.setItemInHand( pHand, this.core.copy() );
             this.setCore( ItemStack.EMPTY );
+            this.setOn(false);
             if(this.isTame() && this.getOwnerUUID().equals( pPlayer.getUUID() )) this.setUnTamed();
             this.soundFlag = true;
             return InteractionResult.SUCCESS;
@@ -455,6 +475,7 @@ public class EnragedMagmaticGolemEntity extends TamableAnimal implements ICoreOw
 
         private void performAttack( LivingEntity target, double distanceToTarget ){
             this.golem.getCore().hurt( 3, RandomSource.create(), null );
+            this.golem.entityData.set(corePercentage, golem.getCorePercentage());
             float f = (float)Mth.atan2(target.getZ() - this.golem.getZ(), target.getX() - this.golem.getX());
             for(int l = 0; l < distanceToTarget; ++l) {
                 double d2 = 1.25D * (l - 3.0D);

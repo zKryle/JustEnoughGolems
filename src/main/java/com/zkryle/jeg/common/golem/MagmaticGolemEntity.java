@@ -64,7 +64,7 @@ public class MagmaticGolemEntity extends TamableAnimal implements IEntityAdditio
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(isOn, false);
+        this.entityData.define(isOn, true);
     }
 
     public static AttributeSupplier.Builder createAttributes(){
@@ -116,6 +116,7 @@ public class MagmaticGolemEntity extends TamableAnimal implements IEntityAdditio
      */
     @Deprecated
     public void setTamed( Player pPlayer ){
+        this.setOn(false);
         this.tame( pPlayer );
         this.navigation.stop();
         this.setTarget( (LivingEntity) null );

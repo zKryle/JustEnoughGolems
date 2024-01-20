@@ -40,22 +40,22 @@ public class EnragedMagmaticGolemRenderer extends MobRenderer <EnragedMagmaticGo
 
     @Override
     public ResourceLocation getTextureLocation( EnragedMagmaticGolemEntity pEntity ){
-        if(pEntity.hasCore()){
-            if(pEntity.getCorePercentage() < 3){
+        if(pEntity.hasCoreClient()){
+            if(pEntity.getCorePercentageClient() < 3){
                 return TEXTURE_COREOFF;
-            } else if( pEntity.getCorePercentage() <= 25){
+            } else if( pEntity.getCorePercentageClient() <= 25){
                 if(pEntity.bodyInclination <= 0){
                     return TEXTURE_25_B;
                 } else return TEXTURE_25_A;
-            } else if( pEntity.getCorePercentage() <= 50){
+            } else if( pEntity.getCorePercentageClient() <= 50){
                 if(pEntity.bodyInclination <= 0){
                     return TEXTURE_50_B;
                 } else return TEXTURE_50_A;
-            } else if( pEntity.getCorePercentage() <= 75){
+            } else if( pEntity.getCorePercentageClient() <= 75){
                 if(pEntity.bodyInclination <= 0){
                     return TEXTURE_75_B;
                 } else return TEXTURE_75_A;
-            } else if( pEntity.getCorePercentage() <= 100){
+            } else if( pEntity.getCorePercentageClient() <= 100){
                 if(pEntity.bodyInclination <= 0){
                     return TEXTURE_100_B;
                 } else return TEXTURE_100_A;
